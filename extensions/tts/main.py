@@ -4,7 +4,10 @@ import websocket
 import argparse
 import uuid
 import json
-
+from gtts import gTTS
+from io import BytesIO
+from pydub import AudioSegment
+from pydub.playback import play
 
 # Configuring logger
 logging.basicConfig(
@@ -33,7 +36,14 @@ def on_message(wsapp, m):
     message = json.loads(m)
     if 'event' in message: 
         if message['event'] == 'speak':
-            logging.info(str(message))
+            lang = message['data']['lang']
+            text = message['data']['message']
+            logging.info(f'speaking messagee with text: "{str(text)}" in {str(lang)}')
+            mp3_fp = BytesIO()
+            tts = gTTS(text, lang = lang)
+            tts.write_to_fp(mp3_fp)
+            voice = AudioSegment.from_file(mp3_fp, format = 'mp3')
+            play(voice)
 
 
 # Exiting the Process when the WS connection is lost. (e.g. when the App is closed)

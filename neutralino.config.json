@@ -43,11 +43,6 @@
       "id": "js.neutralino.adc",
       "commandLinux": "python3 ${NL_PATH}/extensions/adc/main.py",
       "commandWindows": "python ${NL_PATH}/extensions/adc/main.py"
-    },
-    {
-      "id": "js.neutralino.tts",
-      "commandLinux": "python3 ${NL_PATH}/extensions/tts/main.py",
-      "commandWindows": "python ${NL_PATH}/extensions/tts/main.py"
     }
   ]
   

@@ -23,9 +23,7 @@ const toggleAdc = () => {
     checking.value = true
   }
 }
-const speak = () => {
-  Neutralino.extensions.dispatch('js.neutralino.tts','speak')
-}
+
 
 </script>
 
@@ -34,7 +32,6 @@ const speak = () => {
   <router-link to="/view2">2</router-link>
   <router-view/>
   <p @click="open" class="big-button">open Google</p>
-  <p @click="speak" class="big-button">speak test sentense</p>
   <p @click="toggleAdc" class="big-button">ADC-value: {{ `${checking?t:'Stopped'}` }}</p>
 </template>
 
