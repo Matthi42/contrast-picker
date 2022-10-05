@@ -39,6 +39,9 @@ i2c = busio.I2C(board.SCL, board.SDA)
 ads = ADS.ADS1115(i2c)
 # Create single-ended input on channel 0
 chan0 = AnalogIn(ads, ADS.P0)
+chan1 = AnalogIn(ads, ADS.P1)
+chan2 = AnalogIn(ads, ADS.P2)
+chan3 = AnalogIn(ads, ADS.P3)
 
 
 # WebSocket Communication with Application
@@ -46,18 +49,39 @@ chan0 = AnalogIn(ads, ADS.P0)
 def on_message(wsapp, m):
     message = json.loads(m)
     if 'event' in message: 
+        # check if a adc at the expected bus adress is present
+        if message['event'] == 'adc-detect':
+            wsapp.send(json.dumps({}))
+        # The four chanels of the ADC can be read seperatly or all at once
         if message['event'] == 'adc-chan0':
-            adc_value = chan0.value
-            result = {
-                'id': str(uuid.uuid4()),
-                'data' : {
-                    'event': 'adc-chan0',
-                    'data': adc_value
-                    },
-                'accessToken' : TOKEN,
-                'method' : 'app.broadcast'
-            }
+            result = adc_result_msg(chan0.value, 'adc-chan0')
             wsapp.send(json.dumps(result))
+        if message['event'] == 'adc-chan1':
+            result = adc_result_msg(chan1.value, 'adc-chan1')
+            wsapp.send(json.dumps(result))
+        if message['event'] == 'adc-chan2':
+            result = adc_result_msg(chan2.value, 'adc-chan2')
+            wsapp.send(json.dumps(result))
+        if message['event'] == 'adc-chan3':
+            result = adc_result_msg(chan3.value, 'adc-chan3')
+            wsapp.send(json.dumps(result))
+        if message['event'] == 'adc-chan-all':
+            result = adc_result_msg([ chan0.value, chan1.value, chan2.value, chan3.value ], 'adc-chan-all')
+            wsapp.send(json.dumps(result))
+         
+# constructs a dictionary of the result data 
+def adc_result_msg(value, event):
+    return {
+        'id': str(uuid.uuid4()),
+        'data' : {
+            'event': event,
+            'data': value
+            },
+        'accessToken' : TOKEN,
+        'method' : 'app.broadcast'
+    }
+
+
 
 # Exiting the Process when the WS connection is lost. (e.g. when the App is closed)
 # see https://neutralino.js.org/docs/how-to/extensions-overview#terminating-an-extension-instance

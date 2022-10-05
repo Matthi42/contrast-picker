@@ -16,7 +16,7 @@ cd vue
 npm install
 npm run dev
 cd ..
-neu run --frontend-lib-dev
+neu run --frontend-lib-dev --arch=armhf
 ```
 Build the application:
 ```
