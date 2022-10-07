@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import View1 from '../views/view1.vue'
-import View2 from '../views/view2.vue'
+import ColorConfiguration from '../views/colorConfiguration.vue'
+import ColorOverview from '../views/colorOverview.vue'
+import CTest from '../views/cTest.vue'
+import Result from '../views/result.vue'
+import Start from '../views/start.vue'
+import UserLogin from '../views/userLogin.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -9,11 +13,33 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            component: View1
+            component: Start,
+            name: 'start'
         },
         {
-            path: '/view2',
-            component: View2
+            path: '/login',
+            component: UserLogin,
+            name: 'login'
+        },
+        {
+            path: '/color-overviw/:userID',
+            component: ColorOverview,
+            name: 'colorOverview'
+        },
+        {
+            path: '/color-Configuration/:userID/:colorVariantID',
+            component: ColorConfiguration,
+            name: 'colorConfiguration'
+        },
+        {
+            path: '/test/:userID/:colorVariantID',
+            component: UserLogin,
+            name: 'test'
+        },
+        {
+            path: '/result/:userID/:colorVariantID',
+            component: Result,
+            name: 'result'
         },
     ]
 })
