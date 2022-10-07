@@ -8,7 +8,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <button @click="$emit('click',$event)" :class="variant">
+    <button :class="variant">
         <slot/>
     </button>
 </template>
