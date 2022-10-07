@@ -4,7 +4,7 @@ import BigButton from './bigButton.vue'
 <template>
     <div class="card">
         <slot/>
-        <BigButton :variant="'secondary'" class="button">Einloggen</BigButton>
+        <BigButton :variant="'secondary'" class="button" @click="$emit('login',$event)">Einloggen</BigButton>
     </div>
 </template>
 <style scoped lang="scss">

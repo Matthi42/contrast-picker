@@ -3,13 +3,17 @@ import { reactive } from 'vue';
 import LoginCard from '../components/loginCard.vue';
 import BigButton from '../components/bigButton.vue';
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/users';
+
+const userStore = useUserStore();
 
 const router = useRouter()
 const back = () => {
     router.push({name: "start"})
 }
-
-const mockUser = reactive(["user1", "user2", "user3", "user4", "user5", "user6", "user7", "user8", "user9",])
+const loginUser = ({name, id}:{name:string, id:string}) => {
+    router.push({name: 'colorOverview', params: {userID: id}})
+}
 
 </script>
 <template>
@@ -19,7 +23,11 @@ const mockUser = reactive(["user1", "user2", "user3", "user4", "user5", "user6",
             <!--TODO do it right-->
         </div>
         <div class="scroll">
-            <LoginCard v-for="u in mockUser">{{ u }}</LoginCard>
+            <LoginCard 
+                v-for="u in userStore.userList" 
+                @login="loginUser(u)"
+                >{{ u.name }}
+            </LoginCard>
         </div>
     </div>
 </template>

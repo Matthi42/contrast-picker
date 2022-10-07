@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import BigButton from '../components/bigButton.vue';
 import { useRouter } from 'vue-router'
+
+
 const router = useRouter()
 
 const startApp = () => {
