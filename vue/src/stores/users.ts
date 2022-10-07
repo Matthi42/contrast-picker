@@ -4,7 +4,7 @@ import { computed, reactive, watch } from "vue";
 // a Store for all users
 export const useUserStore = defineStore('user', () => {
     // user array is first insatnceated empty
-    const users = reactive([] as object[])
+    const users = reactive([] as User[])
     // data from key-value store is loadet into store
     Neutralino.storage.getData('users').then(v => {
         Object.assign(users, reactive(JSON.parse(v) as object[]))
@@ -15,11 +15,11 @@ export const useUserStore = defineStore('user', () => {
     }, { deep: true})
 
     // getters and setters are normal pinia
-    const addUser = (user: object) => {
+    const addUser = (user: User) => {
         users.push(user)
     }
-    // TODO map user information to smaler representation
-    const userList = computed(() => users.map(u => u))
+    
+    const userList = computed(() => users.map(u => ({ name: u.name, id: u.id })))
 
     return {
         userList,
