@@ -121,7 +121,7 @@ const textSizes = ref([36, 32, 24, 20, 16, 15])
 <template>
     <div class="grid">
         <div class="button-container">
-            <BigButton @click="router.push({name: 'colorOverview', params: {userID: id}})">zurück</BigButton>
+            <BigButton @click="router.push({name: 'colorOverview', params: {userID: route.params.userID as string}})">zurück</BigButton>
             <BigButton>Test</BigButton>
         </div>
         <div class="board-container">
