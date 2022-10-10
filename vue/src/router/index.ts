@@ -33,7 +33,7 @@ const router = createRouter({
         },
         {
             path: '/test/:userID/:colorVariantID',
-            component: UserLogin,
+            component: CTest,
             name: 'test'
         },
         {
