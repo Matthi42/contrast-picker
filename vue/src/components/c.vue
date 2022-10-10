@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 const props = defineProps({ 
   fill: { type: String, default: 'rgb(0 0 0)' }, 
-   rotation: { type: Number, default: 0 } 
+  rotation: { type: Number, default: 0 } 
 })
 
 const rotationS = computed(() => `rotate(${props.rotation * 45} 50 50)`)

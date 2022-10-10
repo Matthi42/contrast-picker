@@ -23,7 +23,7 @@ const createVariante = (mainColorID: string) => {
     // router.push({name: 'colorConfiguration', params: {userID: '1', colorVariantID: '1'}})
 }
 const testVariant = (id: string) => {
-
+    router.push({name: 'test', params:{ userID: userID, colorVariantID: id}})
 }
 </script>
 <template>
@@ -50,6 +50,11 @@ const testVariant = (id: string) => {
     overflow: scroll;
     height: 500px;
     bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
 }
 
 back {
