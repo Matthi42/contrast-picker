@@ -36,6 +36,11 @@ const loginUser = ({name, id}:{name:string, id:string}) => {
     overflow: scroll;
     height: 500px;
     bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
 }
 
 back {

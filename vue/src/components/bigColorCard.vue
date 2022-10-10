@@ -72,8 +72,4 @@ const hasVariants = computed(() => props?.data?.variants?.length !== 0)
     justify-content: space-between;
     align-items: cente
 }
-
-.container {
-    margin: 0px 0px 50px 50px;
-}
 </style>

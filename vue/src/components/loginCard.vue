@@ -11,7 +11,6 @@ import BigButton from './bigButton.vue'
 .card {
     border-style: solid;
     width: 1000px;
-    margin:50px;
     font-size: 32pt;
     text-align: left;
     padding: 10px 10px 10px 50px;
