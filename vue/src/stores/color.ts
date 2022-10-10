@@ -68,7 +68,7 @@ export const useColorStore = defineStore('color', () => {
 
     const modifyColorVariant = (newVal: ColorVariant) => {
         const index = colorVariants.findIndex(v => v.id === newVal.id)
-        colorVariants.splice(index,index)
+        colorVariants.splice(index, index + 1)
         colorVariants.push(newVal)
     }
 
