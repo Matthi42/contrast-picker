@@ -8,7 +8,7 @@ const props = defineProps({
 })
 </script >
 <template>
-    <button @click="$emit('click',$event)">
+    <button>
         <Arrow width="100px" :rotation="rotation"/>
     </button>
 </template>
