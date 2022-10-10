@@ -67,14 +67,26 @@ export const useColorStore = defineStore('color', () => {
     }
 
     const modifyColorVariant = (newVal: ColorVariant) => {
-        colorVariants[colorVariants.findIndex((e) => e.id === newVal.id)] = newVal
+        const index = colorVariants.findIndex(v => v.id === newVal.id)
+        colorVariants.splice(index,index)
+        colorVariants.push(newVal)
     }
 
     const getColorVariantByID = computed(() => (id: string) => colorVariants.find(v => v.id === id) as ColorVariant)
-
+    const getMainColorByID = computed(() => (id:string) => mainColors.find(m => m.id === id) as ColorCombination)
+    const getColorVariantColorsByID = computed(() => (id: string) => {
+        const variant = colorVariants.find(v => v.id === id) as ColorVariant
+        const main = mainColors.find(c => variant.mainColorID === c.id) as ColorCombination
+        return {
+            foreground: `hsl(${main.foreground.hue() + variant.foregroundChanges[0]} ${main.foreground.saturationl() + variant.foregroundChanges[0]}% ${main.foreground.lightness() + variant.foregroundChanges[2]}%)`,
+            background: `hsl(${main.background.hue() + variant.backgroundChanges[0]} ${main.background.saturationl() + variant.backgroundChanges[0]}% ${main.background.lightness() + variant.backgroundChanges[2]}%)`
+        }
+    })
     return {
         colorsByUser,
         getColorVariantByID,
+        getMainColorByID,
+        getColorVariantColorsByID,
         createColorVariant,
         modifyColorVariant,
     }

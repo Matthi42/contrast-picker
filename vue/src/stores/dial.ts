@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { Ref, ref, watch } from "vue";
 
 // store that is abstracting the dial logic
 export const useDialStore = defineStore('dial', () => {
@@ -57,7 +57,7 @@ export const useDialStore = defineStore('dial', () => {
     // TODO: calibration logic and maped values
 
     return {
-        dials: [ dial0, dial1, dial2, dial3 ],
+        dials: [ dial0, dial1, dial2, dial3 ] as Ref<number>[],
         startMesuaring,
         stopMesuaring,
         toggleMeasuring
