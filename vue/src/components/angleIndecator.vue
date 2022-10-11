@@ -7,8 +7,8 @@ const props = defineProps({
     valueTop: { type: Number, default: 0 },
     valueBottom: { type: Number, default: 0 },
 })
-const topAngle = computed(() => `rotate(${((180 / Math.abs(props.minValue - props.maxValue)) * props.valueTop)} 50 50)`)
-const bottomAngle = computed(() => `rotate(${((180 / Math.abs(props.minValue - props.maxValue)) * props.valueBottom)} 50 50)`)
+const topAngle = computed(() => `rotate(${((270 / Math.abs(props.minValue - props.maxValue)) * props.valueTop)} 50 50)`)
+const bottomAngle = computed(() => `rotate(${((270 / Math.abs(props.minValue - props.maxValue)) * props.valueBottom)} 50 50)`)
 
 </script>
 <template>
