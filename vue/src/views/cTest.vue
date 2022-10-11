@@ -1,37 +1,49 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import ArrowButton from '../components/arrowButton.vue'
 import BigButton from '../components/bigButton.vue'
 import C from '../components/c.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useColorStore } from '../stores/color'
+import { useTestStore } from '../stores/test'
 
 const route = useRoute()
+const router = useRouter()
 const colorStore = useColorStore()
+const testStore = useTestStore()
 const arrows = ref([1,2,3,0,'c',4,7,6,5])
 
-const variant = colorStore.getColorVariantColorsByID(route.params.colorVariantID as string)
+const colorVariantID = route.params.colorVariantID as string
+await testStore.startTest(colorVariantID)
 
-const clickedArrow = (n: number) => {
-    clicks.value.push({actualRotation: 0, chosenRotation:n})
+const variant = colorStore.getColorVariantColorsByID(colorVariantID)
+
+const clickedArrow = async (n: number) => {
+    await testStore.setTest(n) 
+    await testStore.nextQuestion()
 }
-const clicks = ref([] as {actualRotation:number, chosenRotation:number}[])
 
-const currentSize = computed(() => `${100 * Math.pow(0.8, clicks.value.length)}px`)
+const currentSize = computed(() => `${Math.round(100 * Math.pow(0.8, testStore.test.currentPos[0]))}px`)
+
+
 
 </script>
 <template>
     <div class="container">
         <div class="grid">
             <div v-for="n in arrows" :style="{backgroundColor: n == 'c' ?  variant.background : ''}">
-                <ArrowButton v-if="n != 'c'" :rotation="(n as number)" @click="clickedArrow(n as number)"/>
-                <C v-if="n == 'c'" :fill="variant.foreground" :width="currentSize"/>
+                <ArrowButton v-if="n != 'c'" :rotation="n as number" @click="clickedArrow(n as number)"/>
+                <C v-if="n == 'c'" :fill="variant.foreground" :width="currentSize" :rotation="testStore.currentRotation"/>
             </div>
         </div>
         <div class="side">
-            <div>{{ currentSize }}</div>
-            <div>{{ clicks }}</div>
-            <BigButton>Pause</BigButton>
+            <!-- <div>{{ testStore.currentTest }}</div>
+            <div>{{ testStore.testIDs }}</div>
+            <div>{{ testStore.test.result}}</div> -->
+            <div>{{ testStore.mistakesInCurrentLine }}</div>
+            <!-- hier muss zu fehleransicht navigiert werden -->
+            <div>{{ testStore.toManyMistakesInCurrentLine(router.back) }}</div>
+            <BigButton @click="router.back">Pause</BigButton>
         </div>
     </div>
 </template>
