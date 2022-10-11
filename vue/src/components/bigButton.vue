@@ -21,11 +21,21 @@ button {
     border-style: solid;
     border-color: black;
     border-width: 5px;
+    &:hover {
+        transform: scale(0.95);
+        box-shadow: 0px 0px 22px 10px rgba(0, 0, 0, 0.24);
+    }
 }
 .primary {
-    background-color: #D9D9D9;
+    background-color: #cfcfcf;
+    &:hover {
+        background-color: #e9e9e9;
+    }
 }
 .secondary {
     background-color: rgb(179, 228, 130);
+    &:hover {
+        background-color: #baee86;
+    }
 }
 </style>
