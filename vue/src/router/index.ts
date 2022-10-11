@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ColorConfiguration from '../views/colorConfiguration.vue'
 import ColorOverview from '../views/colorOverview.vue'
 import CTest from '../views/cTest.vue'
-import Result from '../views/result.vue'
 import Start from '../views/start.vue'
 import UserLogin from '../views/userLogin.vue'
 
@@ -35,11 +34,6 @@ const router = createRouter({
             path: '/test/:userID/:colorVariantID',
             component: CTest,
             name: 'test'
-        },
-        {
-            path: '/result/:userID/:colorVariantID',
-            component: Result,
-            name: 'result'
         },
     ]
 })
