@@ -117,9 +117,6 @@ export const useTestStore = defineStore('test', () => {
         const t = tests.get(currentTest.value as string) as test
         t.result[t.currentPos[0]][t.currentPos[1]].chosenRotation = value
         await Neutralino.storage.setData('test' + t.id, JSON.stringify(t))
-        if(toManyMistakesInCurrentLine.value) {
-
-        }
     }
 
     const currentRotation = computed(() => {
@@ -136,15 +133,18 @@ export const useTestStore = defineStore('test', () => {
     const score = (t: test) => 
         t.result.reduce((ac, l, i) => i < t.currentPos[0] ? ac + mistakesInLine(l) * lineFactor(i + 1): ac,0 )
     
+    const currentScore = computed(() => score(test.value))
+
         // TODO: the line is changed as soon as the end is reached 
     const mistakesInCurrentLine = computed(() => 
         test.value.result[test.value.currentPos[0]].map(l => 
             (l.actualRotation === l.chosenRotation || !l.chosenRotation) ? 0: 1
-        ).reduce((ac:any, c) => ac + c) 
-    )
-    const toManyMistakesInCurrentLine = computed(() =>   mistakesInCurrentLine.value > Math.round(test.value.result[test.value.currentPos[0]].length / 2) - 1)
+        ).reduce((ac:any, c) => ac + c) )
+    
+    const toManyMistakesInCurrentLine = () =>   mistakesInCurrentLine.value > Math.round(test.value.result[test.value.currentPos[0]].length / 2) - 1
 
     return {
+        toManyMistakesInCurrentLine,
         nextQuestion,
         startTest,
         setTest,
@@ -153,8 +153,8 @@ export const useTestStore = defineStore('test', () => {
         tests,
         testIDs,
         currentTest,
+        currentScore,
         currentRotation,
         mistakesInCurrentLine,
-        toManyMistakesInCurrentLine
     }
 })
