@@ -34,7 +34,7 @@ const loginUser = ({name, id}:{name:string, id:string}) => {
 <style scoped lan="scss">
 .scroll {
     overflow: scroll;
-    height: 500px;
+    height: 565px;
     bottom: 0;
     display: flex;
     flex-direction: column;

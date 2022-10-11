@@ -48,7 +48,7 @@ const testVariant = (id: string) => {
 <style scoped lang="scss">
 .scroll {
     overflow: scroll;
-    height: 500px;
+    height: 565px;
     bottom: 0;
     display: flex;
     flex-direction: column;
