@@ -1,10 +1,13 @@
 <script setup lang="ts">
 defineProps({ modelValue: Boolean })
-defineEmits({ 'update:modelValue': Boolean })
+defineEmits({ 
+    'update:modelValue': Boolean,
+    'close' : Boolean
+})
 
 </script>
 <template>
-    <div v-if="modelValue" class="overlay" @click="$emit('update:modelValue',false)">
+    <div v-if="modelValue" class="overlay" @click="$emit('update:modelValue',false), $emit('close',true)">
         <div class="container">
             <div>
                 <slot name="content"/>
