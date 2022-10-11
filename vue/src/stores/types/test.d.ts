@@ -4,7 +4,7 @@ type test = {
         actualRotation:number, 
         chosenRotation:number | undefined
     }[][],
-    currentPos: [number, number]
+    currentPos: [number, number],
 }
 
 type testMap = Map<string, test>
