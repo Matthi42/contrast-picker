@@ -20,7 +20,7 @@ const startApp = () => {
         display:flex;
         align-items: center;
         justify-content: center;
-        height: 600px;
+        height: 720px;
     }
 
 </style>
