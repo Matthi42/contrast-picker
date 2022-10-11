@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, reactive, watch } from "vue";
+import { computed, reactive, ref, watch } from 'vue';
 
 // a Store for all users
 export const useUserStore = defineStore('user', () => {
@@ -8,6 +8,7 @@ export const useUserStore = defineStore('user', () => {
     // data from key-value store is loadet into store
     Neutralino.storage.getData('users').then(v => {
         Object.assign(users, reactive(JSON.parse(v) as object[]))
+        hasLoadet.value = true
     })
     // if data changes the persistet values are updated
     watch(users,async (newVal, oldVal) => {
@@ -21,8 +22,11 @@ export const useUserStore = defineStore('user', () => {
     
     const userList = computed(() => users.map(u => ({ name: u.name, id: u.id })))
 
+    const hasLoadet = ref(false)
+
     return {
         userList,
+        hasLoadet,
         addUser
     }
 })
