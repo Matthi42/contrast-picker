@@ -17,7 +17,7 @@ const dialStore = useDialStore()
 dialStore.startMesuaring()
 
 // non reactice variables
-let { mainColorID, foregroundChanges: fore, backgroundChanges: back, id } = colorStore.getColorVariantByID(route.params.colorVariantID as string)
+let { mainColorID, foregroundChanges: fore, backgroundChanges: back, id, finishedTest } = colorStore.getColorVariantByID(route.params.colorVariantID as string)
 const { foreground: mainForeground, background: mainBackground } = colorStore.getMainColorByID(mainColorID)
 
 const foregroundChanges = ref(fore)
@@ -56,7 +56,8 @@ onUnmounted(() => {
         backgroundChanges: backgroundChanges.value,
         userID: route.params.userID as string,
         mainColorID: mainColorID,
-        id: id
+        id: id,
+        finishedTest: finishedTest
     })
     dialStore.stopMesuaring()
 })

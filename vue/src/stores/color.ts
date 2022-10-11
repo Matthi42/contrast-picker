@@ -62,7 +62,8 @@ export const useColorStore = defineStore('color', () => {
             mainColorID: combinationID,
             userID: userID,
             foregroundChanges: [0, 0, 0],
-            backgroundChanges: [0, 0, 0]
+            backgroundChanges: [0, 0, 0],
+            finishedTest: false
         })
     }
 

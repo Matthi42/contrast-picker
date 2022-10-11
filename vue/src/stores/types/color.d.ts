@@ -18,7 +18,8 @@ type ColorVariant = {
     mainColorID: string,
     userID: string,
     foregroundChanges: [number, number, number],
-    backgroundChanges: [number, number, number]
+    backgroundChanges: [number, number, number],
+    finishedTest: boolean
 }
 
 
