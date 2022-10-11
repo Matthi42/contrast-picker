@@ -51,8 +51,8 @@ export const useColorStore = defineStore('color', () => {
                 .map((v) => ({
                     id: v.id,
                     // TODO: validation
-                    foreground: `hsl(${c.foreground.hue() + v.foregroundChanges[0]} ${c.foreground.saturationl() + v.foregroundChanges[0]}% ${c.foreground.lightness() + v.foregroundChanges[2]}%)`,
-                    background: `hsl(${c.background.hue() + v.backgroundChanges[0]} ${c.background.saturationl() + v.backgroundChanges[0]}% ${c.background.lightness() + v.backgroundChanges[2]}%)`
+                    foreground: `hsl(${c.foreground.hue() + v.foregroundChanges[0]} ${c.foreground.saturationl() + v.foregroundChanges[1]}% ${c.foreground.lightness() + v.foregroundChanges[2]}%)`,
+                    background: `hsl(${c.background.hue() + v.backgroundChanges[0]} ${c.background.saturationl() + v.backgroundChanges[1]}% ${c.background.lightness() + v.backgroundChanges[2]}%)`
                 }))
         })) as UserColors
     )
@@ -68,8 +68,7 @@ export const useColorStore = defineStore('color', () => {
 
     const modifyColorVariant = (newVal: ColorVariant) => {
         const index = colorVariants.findIndex(v => v.id === newVal.id)
-        colorVariants.splice(index, index + 1)
-        colorVariants.push(newVal)
+        colorVariants[index] = newVal
     }
 
     const getColorVariantByID = computed(() => (id: string) => colorVariants.find(v => v.id === id) as ColorVariant)
@@ -78,8 +77,8 @@ export const useColorStore = defineStore('color', () => {
         const variant = colorVariants.find(v => v.id === id) as ColorVariant
         const main = mainColors.find(c => variant.mainColorID === c.id) as ColorCombination
         return {
-            foreground: `hsl(${main.foreground.hue() + variant.foregroundChanges[0]} ${main.foreground.saturationl() + variant.foregroundChanges[0]}% ${main.foreground.lightness() + variant.foregroundChanges[2]}%)`,
-            background: `hsl(${main.background.hue() + variant.backgroundChanges[0]} ${main.background.saturationl() + variant.backgroundChanges[0]}% ${main.background.lightness() + variant.backgroundChanges[2]}%)`
+            foreground: `hsl(${main.foreground.hue() + variant.foregroundChanges[0]} ${main.foreground.saturationl() + variant.foregroundChanges[1]}% ${main.foreground.lightness() + variant.foregroundChanges[2]}%)`,
+            background: `hsl(${main.background.hue() + variant.backgroundChanges[0]} ${main.background.saturationl() + variant.backgroundChanges[1]}% ${main.background.lightness() + variant.backgroundChanges[2]}%)`
         }
     })
     return {
