@@ -53,8 +53,12 @@ const overwriteTest = () => {
     </Modal>
     <div>
         <div class="title">
-            <h1>Farbkombinationen<BigButton @click="logOut">Abmelden</BigButton>
-            </h1>
+            <div class="t-text">
+                <h1>Farbkombinationen</h1>
+            </div>
+            <div class="t-button">
+                <BigButton @click="logOut">Abmelden</BigButton>
+            </div>
             <!--TODO do it right-->
         </div>
         <div class="scroll">
@@ -66,20 +70,12 @@ const overwriteTest = () => {
                 @test="testVariant"
             >
             </BigColorCard>
+            <div></div>
         </div>
     </div>
 </template>
 <style scoped lang="scss">
-.scroll {
-    overflow: scroll;
-    height: 565px;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 50px;
-}
+
 
 back {
     position: fixed;
@@ -88,11 +84,4 @@ back {
     top: 20px;
 }
 
-title {
-    width: 800px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    
-}
 </style>

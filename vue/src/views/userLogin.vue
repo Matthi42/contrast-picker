@@ -9,39 +9,30 @@ const userStore = useUserStore();
 
 const router = useRouter()
 const back = () => {
-    router.push({name: "start"})
+    router.push({ name: "start" })
 }
-const loginUser = ({name, id}:{name:string, id:string}) => {
-    router.push({name: 'colorOverview', params: {userID: id}})
+const loginUser = ({ name, id }: { name: string, id: string }) => {
+    router.push({ name: 'colorOverview', params: { userID: id } })
 }
 
 </script>
 <template>
-    <div>
-        <div class="title">
-            <h1>Wähle ein Konto <BigButton @click="back">zurück</BigButton></h1>
-            <!--TODO do it right-->
+    <div class="title">
+        <div class="t-text">
+            <h1>Wähle ein Konto </h1>
         </div>
-        <div class="scroll">
-            <LoginCard 
-                v-for="u in userStore.userList" 
-                @login="loginUser(u)"
-                >{{ u.name }}
-            </LoginCard>
+        <div class="t-button">
+            <BigButton @click="back">zurück</BigButton>
         </div>
+        <!--TODO do it right-->
     </div>
+    <div class="scroll">
+            <LoginCard v-for="u in userStore.userList" @login="loginUser(u)">{{ u.name }}</LoginCard>
+            <div></div>
+    </div>
+
 </template>
 <style scoped lan="scss">
-.scroll {
-    overflow: scroll;
-    height: 565px;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 50px;
-}
 
 back {
     position: fixed;
@@ -50,11 +41,4 @@ back {
     top: 20px;
 }
 
-title {
-    width: 800px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    
-}
 </style>
