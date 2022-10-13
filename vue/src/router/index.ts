@@ -5,6 +5,7 @@ import ColorOverview from '../views/colorOverview.vue'
 import CTest from '../views/cTest.vue'
 import Start from '../views/start.vue'
 import UserLogin from '../views/userLogin.vue'
+import Settings from '../views/settings.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -34,6 +35,11 @@ const router = createRouter({
             path: '/test/:userID/:colorVariantID',
             component: CTest,
             name: 'test'
+        },
+        {
+            path: '/settings/',
+            component: Settings,
+            name: 'settings'
         },
     ]
 })
