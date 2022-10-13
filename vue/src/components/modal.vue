@@ -7,7 +7,7 @@ defineEmits({
 
 </script>
 <template>
-    <div v-if="modelValue" class="overlay" @click="$emit('update:modelValue',false), $emit('close',true)">
+    <div v-if="modelValue" class="overlay" @click="$emit('close',true)">
         <div class="container">
             <div>
                 <slot name="content"/>
@@ -43,7 +43,7 @@ defineEmits({
     width: 800px;
     background-color: white;
     border-radius: 20px;
-    font-size: 32pt;
+    //font-size: 32pt;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
