@@ -83,6 +83,7 @@ export const useColorStore = defineStore('color', () => {
         }
     })
     return {
+        mainColors,
         colorsByUser,
         getColorVariantByID,
         getMainColorByID,
