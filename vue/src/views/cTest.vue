@@ -88,4 +88,7 @@ const currentSize = computed(() => `${Math.round(100 * Math.pow(0.8, testStore.t
         width:250px
     }
 }
+p {
+    font-size: 32pt;
+}
 </style>
