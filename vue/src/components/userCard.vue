@@ -25,7 +25,7 @@ defineEmits(['edit'])
             <SmallButton @click="$emit('edit')">bearbeiten</SmallButton>
         </div>
         <div class="chip-container">
-            <div class="chip" v-for="e in user.disabilities">{{ e }}</div>
+            <div class="chip" v-for="e in user.disabilities.filter((o:any) => Boolean(o) )">{{ e }}</div>
         </div>
         <div>
             
@@ -53,6 +53,7 @@ defineEmits(['edit'])
     background-color: lightgray;
     padding: 10px 20px 10px 20px;
     border-radius: 30px;
+    white-space: nowrap;
 }
 
 .chip-container {
