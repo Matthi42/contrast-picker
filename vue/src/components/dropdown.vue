@@ -18,7 +18,6 @@ const addItem = () => {
         op?.push(newItem.value)
         emit('update:options', op)
     }
-    
 }
 
 </script>
@@ -40,14 +39,16 @@ const addItem = () => {
 
             </div>
         </div>
-        <div class="dropdown-content" v-if="open">
+            <div class="dropdown-content" v-if="open">
             <div class="input">
-                <input type="text" v-bind="newItem" @click='addItem' />
-                <SmallButton>hinzufügen</SmallButton>
+                <input type="text" v-bind="newItem"/>
+                <SmallButton @click="addItem">hinzufügen</SmallButton>
             </div>
-            <div v-for="o in options" @click="$emit('update:selectedOption',o)" class="item"
+            <div v-for="o in options" @click="$emit('update:selectedOption',o == selectedOption ? undefined : o)" class="item"
                 :class="{'selected': o == selectedOption}">{{ o }}</div>
         </div>
+        
+        
     </div>
 </template>
 
@@ -69,7 +70,9 @@ div {
     display:flex;
     justify-content: space-between;
     align-items: center;
-    border-width:1px
+    border-width:1px;
+    white-space: nowrap;
+    gap:15px;
 }
 
 .dropdown-content {
@@ -80,13 +83,13 @@ div {
     border-style: solid;
     border-width: 1px;
     border-color: gray;
-    z-index: 1;
+    z-index: 2;
     flex-direction: column;
     gap: 10px;
     justify-content: stretch;
     align-items: flex-start;
     max-height: 300px;
-    overflow: scroll;
+    overflow: visible;
     border-radius: 10px;
 }
 
@@ -96,7 +99,8 @@ div {
 
 .item {
     padding: 4px 20px 4px 20px;
-    border-radius: 20px
+    border-radius: 20px;
+    white-space: nowrap;
 }
 
 .input {
@@ -113,4 +117,6 @@ div {
     margin-bottom: -6px;
     padding-left:5px
 }
+
+
 </style>

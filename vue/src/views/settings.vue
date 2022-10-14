@@ -4,36 +4,79 @@ import UserCard from '../components/userCard.vue';
 import Modal from '../components/modal.vue';
 import Dropdown from '../components/dropdown.vue';
 import { useUserStore } from '../stores/users'
-import { reactive, Ref, ref } from 'vue';
+import { computed, reactive, Ref, ref } from 'vue';
 import TextInput from '../components/textInput.vue';
 import DateInput from '../components/dateInput.vue';
 import ColorCard from '../components/colorCard.vue';
 import { useColorStore } from '../stores/color';
 import { v4 as uuidv4 } from 'uuid';
+import { useDisabilityStore } from '../stores/disabilitys'
+import { useRouter } from 'vue-router'
+import { ColorCombination } from '../stores/types/color';
+import Color from 'color';
+import ColorInput from '../components/colorInput.vue';
 
 const userStore = useUserStore()
 const users = userStore.users
-const currentUser: Ref< User> = ref({birthday: '',colors: [],disabilities:[],familyName:'',id:'',name:'',value:''}) 
+const currentUser = reactive({birthday: '',colors: [],disabilities:[],familyName:'',id:'',name:'',value:''}) 
+
+const router = useRouter()
+
 const colorStore = useColorStore()
 const colors = colorStore.mainColors
 
+const disabilityStore = useDisabilityStore()
+const disabilities = disabilityStore.disabilitys
+
 const editUser = ref(false)
 const editUserData = (id:string) => {
-    currentUser.value = userStore.userByID(id)
+    Object.assign(currentUser ,reactive(userStore.userByID(id)))
     editUser.value = true
 }
 const addUser = () => {
-    currentUser.value = {id: uuidv4(),familyName: "",name: "",birthday: "",disabilities: [],colors: []}
+    Object.assign(currentUser, reactive(userStore.newUser()))
+    console.log(currentUser);
+    
     editUser.value = true
 }
 const saveUser = () => {
     //TODO: validation
-    userStore.addUser(currentUser.value)
+    userStore.addUser(currentUser)
+    console.log(currentUser.value);
+    
     editUser.value=false
 }
 
-const options = reactive(['eins', 'zwei', 'drei', 'vier', 'fünf'])
-const test = ref('w')
+const editColor = ref({modal: false, newColor: false})
+
+const color: Ref<ColorCombination> = ref({id: uuidv4(),name: '',background: new Color('#ffffff').hsl(),foreground: new Color('#ffffff').hsl(),disabilitys: [] })
+const background = computed({
+    get() { return color.value.background.hex().toString()},
+    set(s: string) {color.value.background = new Color(s).hsl()}
+})
+const foreground = computed({
+    get() { return color.value.foreground.hex().toString()},
+    set(s: string) {color.value.foreground = new Color(s).hsl()}
+})
+
+const addColor = () => {
+    color.value = colorStore.newColor()
+    editColor.value = {modal: true, newColor: true}
+}
+
+const editColorName = (c: ColorCombination) => {
+    color.value = c
+    editColor.value = {modal: true, newColor: false}
+}
+
+const saveColor = ()  => {
+    colorStore.addColor(color.value)
+    editColor.value.modal = false
+}
+
+const cname = ref('')
+
+
 </script>
 
 <template>
@@ -45,26 +88,26 @@ const test = ref('w')
                     <TextInput v-model="currentUser.familyName">Nachname</TextInput>
                 </div>
                 <DateInput v-model="currentUser.birthday">Geburtsdatum</DateInput>
-                <!-- <Dropdown  v-model:selectedOption="cur" v-model:options="options">Erkrankung</Dropdown> -->
+                <Dropdown  v-model:selectedOption="currentUser.disabilities[0]" v-model:options="disabilities">Erkrankung</Dropdown>
             </div>
-            <p>{{ currentUser.id }}</p>
         </template>
         <template v-slot:buttons>
             <SmallButton @click="saveUser">speichern</SmallButton>
             <SmallButton @click="editUser = false">abbrechen</SmallButton>
         </template>
     </Modal>
-    <Modal>
+    <Modal v-model="editColor.modal">
         <template v-slot:content>
             <!-- <Dropdown v-model:selectedOption="op" v-model:options="options">title</Dropdown> -->
-
-            <TextInput>Title</TextInput>
-
-            <DateInput>Date</DateInput>
+            <div class="user-modal">
+                <TextInput v-model="color.name">Name</TextInput>
+                <ColorInput :disabled="!editColor.newColor" :color="foreground" @update:color="foreground = $event">Vordergrund</ColorInput>
+                <ColorInput :disabled="!editColor.newColor" :color="background" @update:color="background = $event">Hintergrund</ColorInput>
+            </div>
         </template>
         <template v-slot:buttons>
-            <SmallButton>speichern</SmallButton>
-            <SmallButton>abbrechen</SmallButton>
+            <SmallButton @click="saveColor">speichern</SmallButton>
+            <SmallButton @click="editColor.modal = false" >abbrechen</SmallButton>
         </template>
     </Modal>
     <div class="title">
@@ -72,7 +115,7 @@ const test = ref('w')
             <h1>Einstellungen</h1>
         </div>
         <div class="t-button">
-            <SmallButton>zurück</SmallButton>
+            <SmallButton @click="router.push({name: 'start'})">zurück</SmallButton>
         </div>
     </div>
     <div class="scroll">
@@ -84,12 +127,13 @@ const test = ref('w')
             <UserCard v-for="u in users" :user="u" @edit="editUserData(u.id)" />
             <div class="title-card">
                 <div>Hauptfarben</div>
-                <SmallButton variant="secondary">Farbe hinzufügen</SmallButton>
+                <SmallButton variant="secondary" @click="addColor">Farbe hinzufügen</SmallButton>
             </div>
-            <ColorCard v-for="c in colors" :color="c" />
+            <ColorCard v-for="c in colors" :color="c" @click="editColorName(c)" />
         </div>
     </div>
 </template>
+
 <style scoped lang="scss">
 .sheet {
     width: 900px;

@@ -20,7 +20,7 @@ const dummychips = ['eins','zwei','drei']
 <template>
     <div class="card">
         <div class="name">
-            <ColorIndecator width="45px" :color1="color.foreground.hsl()" :color2=color.background.hsl() /> 
+            <ColorIndecator width="45px" :color1="color.foreground.hsl().toString()" :color2=color.background.hsl().toString() /> 
             <p>{{ color.name }}</p>
         </div>
         <div>

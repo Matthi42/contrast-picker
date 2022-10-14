@@ -8,7 +8,6 @@ export const useDisabilityStore = defineStore('disability', () => {
     Neutralino.storage.getData('disabilitys').then(d => {
         Object.assign(disabilitys, reactive(JSON.parse(d) as string[]))
     }).catch((e) => {
-        console.error(e)
     })
 
     watch(disabilitys, async (newVal, oldVal) => {

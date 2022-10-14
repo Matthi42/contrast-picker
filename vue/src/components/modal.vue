@@ -22,7 +22,7 @@ defineEmits({
 
 <style scoped lang="scss">
 .overlay {
-    position: fixed;
+    position: absolute;
     z-index: 1;
     left: 0;
     right: 0;
@@ -35,7 +35,6 @@ defineEmits({
     justify-content: center;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-
 }
 
 .container {
@@ -47,7 +46,8 @@ defineEmits({
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
+    position: relative;
+    
 }
 
 .buttons {

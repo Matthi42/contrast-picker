@@ -113,7 +113,6 @@ export const useTestStore = defineStore('test', () => {
     const test = computed(() =>  tests.get(currentTest.value as string) as test)
 
     const setTest = async (value: number) => {
-        console.log(value)
         const t = tests.get(currentTest.value as string) as test
         t.result[t.currentPos[0]][t.currentPos[1]].chosenRotation = value
         await Neutralino.storage.setData('test' + t.id, JSON.stringify(t))

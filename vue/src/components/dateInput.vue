@@ -7,7 +7,11 @@ defineEmits(['update:modelValue'])
         <div class="label">
             <label><slot/></label>
         </div>
-        <input type="date" :value="modelValue" @input="$emit('update:modelValue', ($event as any).target.value)" />
+        <input 
+            type="date" 
+            :value="modelValue" 
+            @input="$emit('update:modelValue', ($event as any).target.value)" 
+        />
     </div>
         
     

@@ -32,7 +32,7 @@ export const useColorStore = defineStore('color', () => {
                 id: c.id,
                 name: c.name,
                 foreground: serializeColor(c.foreground),
-                background: serializeColor(c.background), 
+                background: serializeColor(c.background),
             })))
         )
     })
@@ -73,7 +73,7 @@ export const useColorStore = defineStore('color', () => {
     }
 
     const getColorVariantByID = computed(() => (id: string) => colorVariants.find(v => v.id === id) as ColorVariant)
-    const getMainColorByID = computed(() => (id:string) => mainColors.find(m => m.id === id) as ColorCombination)
+    const getMainColorByID = computed(() => (id: string) => mainColors.find(m => m.id === id) as ColorCombination)
     const getColorVariantColorsByID = computed(() => (id: string) => {
         const variant = colorVariants.find(v => v.id === id) as ColorVariant
         const main = mainColors.find(c => variant.mainColorID === c.id) as ColorCombination
@@ -82,13 +82,30 @@ export const useColorStore = defineStore('color', () => {
             background: `hsl(${main.background.hue() + variant.backgroundChanges[0]} ${main.background.saturationl() + variant.backgroundChanges[1]}% ${main.background.lightness() + variant.backgroundChanges[2]}%)`
         }
     })
+
+    const addColor = (color: ColorCombination) => {
+        let c = mainColors.find(c => c.id = color.id)
+        c = color
+    }
+
+    const newColor = () => {
+        const id = uuidv4()
+        const newc = {
+            id: id, name: '', background: new Color('#ffffff').hsl(), foreground: new Color('#ffffff').hsl(), disabilitys: []
+        }
+        mainColors.push(newc)
+        return newc as ColorCombination
+    }
+
     return {
         mainColors,
         colorsByUser,
-        getColorVariantByID,
         getMainColorByID,
+        getColorVariantByID,
         getColorVariantColorsByID,
         createColorVariant,
         modifyColorVariant,
+        newColor,
+        addColor,
     }
 })
