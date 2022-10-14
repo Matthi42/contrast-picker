@@ -5,12 +5,16 @@ import BigColorCard from '../components/bigColorCard.vue'
 import { useColorStore } from '../stores/color'
 import Modal from '../components/modal.vue';
 import { ref } from 'vue';
+import { useTestStore } from '../stores/test'
 
 const route = useRoute()
 const userID = route.params.userID as string
 const router = useRouter()
 const colorStore = useColorStore()
 const modalOpen = ref(false)
+const selectedColorID = ref('')
+
+const testStore = useTestStore()
 
 
 const logOut = () => {
@@ -28,13 +32,19 @@ const createVariante = (mainColorID: string) => {
 const testVariant = (id: string) => {
     // TODO: if a test has alredy be made we need to ask if it should be deleted
     if(colorStore.getColorVariantByID(id).finishedTest){
+        selectedColorID.value = id 
         modalOpen.value = true
     } else {
         router.push({name: 'test', params:{ userID: userID, colorVariantID: id}})
     }
 }
-const overwriteTest = () => {
+const overwriteTest = async () => {
     // TODO:
+    let color = colorStore.getColorVariantByID(selectedColorID.value)
+    color.finishedTest = false
+    colorStore.modifyColorVariant(color)
+    await testStore.deleteTest(selectedColorID.value)
+    router.push({name: 'test', params:{ userID: userID, colorVariantID: selectedColorID.value}})
 }
 
 
@@ -76,12 +86,8 @@ const overwriteTest = () => {
 </template>
 <style scoped lang="scss">
 
-
-back {
-    position: fixed;
-    z-index: 1;
-    right: 20px;
-    top: 20px;
+p {
+    font-size:32pt
 }
 
 </style>

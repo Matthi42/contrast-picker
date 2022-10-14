@@ -7,6 +7,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useColorStore } from '../stores/color'
 import { useTestStore } from '../stores/test'
 import Modal from '../components/modal.vue';
+import { ColorVariant } from '../stores/types/color';
 
 const route = useRoute()
 const router = useRouter()
@@ -18,12 +19,15 @@ const testFaild = ref(false)
 const colorVariantID = route.params.colorVariantID as string
 await testStore.startTest(colorVariantID)
 
-const variant = colorStore.getColorVariantColorsByID(colorVariantID)
+let variant = colorStore.getColorVariantColorsByID(colorVariantID)
 
 const clickedArrow = async (n: number) => {
     await testStore.setTest(n) 
     // before the next question we check if the test was faild here
     if(testStore.toManyMistakesInCurrentLine()) {
+        let color = colorStore.getColorVariantByID(route.params.colorVariantID as string)
+        color.finishedTest = true
+        colorStore.modifyColorVariant(color)
         testFaild.value = true
     } else {
         await testStore.nextQuestion()
