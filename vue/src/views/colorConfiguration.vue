@@ -122,7 +122,8 @@ const textSizes = ref([36, 32, 24, 20, 16, 15])
 <template>
     <div class="grid">
         <div class="button-container">
-            <BigButton @click="router.push({name: 'colorOverview', params: {userID: route.params.userID as string}})">zurück</BigButton>
+            <BigButton @click="router.push({name: 'colorOverview', params: {userID: route.params.userID as string}})">
+                zurück</BigButton>
             <BigButton>Test</BigButton>
         </div>
         <div class="board-container">
@@ -132,16 +133,18 @@ const textSizes = ref([36, 32, 24, 20, 16, 15])
         </div>
         <div class="indecator-container">
             <div :style="{backgroundColor: workingOnForeground ? colors.foreground : colors.background}">
-                <p :style="{color: workingOnForeground ? (Color(colors.foreground).isLight() ? 'black' : 'white') : (Color(colors.background).isLight() ? 'black' : 'white')}"
-                >{{ workingOnForeground ? 'Vordergrund' : 'Hintergrund' }}</p>
+                <p
+                    :style="{color: workingOnForeground ? (Color(colors.foreground).isLight() ? 'black' : 'white') : (Color(colors.background).isLight() ? 'black' : 'white')}">
+                    {{ workingOnForeground ? 'Vordergrund' : 'Hintergrund' }}</p>
             </div>
             <div>
-                <ColorIndecator width="200px" :color1="colors.foreground" :color2="colors.background" @click="switchFocus" />
+                <ColorIndecator width="200px" :color1="colors.foreground" :color2="colors.background"
+                    @click="switchFocus" />
                 <div>{{ dialsCalibrated ? '' : '' }}</div>
             </div>
         </div>
 
-        <div class="indecators">
+        <div class="indecators" :class="{'indecator-container-calibrated': dialsCalibrated}">
             <AngleIndecator :min-value="-25" :max-value="25"
                 :value-top="workingOnForeground ? foregroundChanges[0]: backgroundChanges[0]"
                 :value-bottom="mapValues(25)[0]" />
@@ -191,14 +194,21 @@ const textSizes = ref([36, 32, 24, 20, 16, 15])
 .indecator-container {
     display: flex;
     flex-direction: column;
+
     div {
         width: 310px;
         border-radius: 30px;
+
         p {
             font-size: 32pt;
         }
     }
+
     justify-content: space-evenly;
     align-items: center;
+}
+
+.indecator-container-calibrated {
+    background-color: rgb(34, 34, 34);
 }
 </style>
