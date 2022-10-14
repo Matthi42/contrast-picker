@@ -143,9 +143,21 @@ export const useTestStore = defineStore('test', () => {
     
     const toManyMistakesInCurrentLine = () =>   mistakesInCurrentLine.value > Math.round(test.value.result[test.value.currentPos[0]].length / 2) - 1
 
+    const deleteTest = async (id: string) => {
+        // TODO implement
+        tests.delete(id)
+        await Neutralino.storage.setData('test' + id, undefined as any)
+        const index = testIDs.indexOf(id)
+        if (index > -1) 
+            testIDs.splice(index, 1)
+        await Neutralino.storage.setData('tests', JSON.stringify(testIDs))
+
+    }
+
     return {
         toManyMistakesInCurrentLine,
         nextQuestion,
+        deleteTest,
         startTest,
         setTest,
         score,
