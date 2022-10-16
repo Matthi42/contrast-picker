@@ -24,7 +24,6 @@ const editVariant = (id: string) => {
     router.push({name: 'colorConfiguration', params: { userID: userID, colorVariantID: id}})
 }
 const createVariante = (mainColorID: string) => {
-    console.log('why does this event fire twice');
     colorStore.createColorVariant(route.params.userID as string ,mainColorID)
     // TODO: navigate directly to configuration 
     // router.push({name: 'colorConfiguration', params: {userID: '1', colorVariantID: '1'}})

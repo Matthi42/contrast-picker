@@ -17,31 +17,31 @@ import Color from 'color';
 import ColorInput from '../components/colorInput.vue';
 
 const userStore = useUserStore()
-const users = userStore.users
-const currentUser = reactive({birthday: '',colors: [],disabilities:[],familyName:'',id:'',name:'',value:''}) 
+const users = userStore.fullUserList
+const currentUser = ref({birthday: '',colors: [],disabilities:[],familyName:'',id:'',name:''}) 
 
 const router = useRouter()
 
 const colorStore = useColorStore()
-const colors = colorStore.mainColors
+const colors = await colorStore.mainColorList
 
 const disabilityStore = useDisabilityStore()
 const disabilities = disabilityStore.disabilitys
 
 const editUser = ref(false)
 const editUserData = (id:string) => {
-    Object.assign(currentUser ,reactive(userStore.userByID(id)))
+    currentUser.value = userStore.userByID(id) as any
     editUser.value = true
 }
 const addUser = () => {
-    Object.assign(currentUser, reactive(userStore.newUser()))
+    currentUser.value = userStore.newUser()
     console.log(currentUser);
     
     editUser.value = true
 }
 const saveUser = () => {
     //TODO: validation
-    userStore.addUser(currentUser)
+    userStore.addUser(currentUser.value)
     console.log(currentUser.value);
     
     editUser.value=false
@@ -73,8 +73,6 @@ const saveColor = ()  => {
     colorStore.addColor(color.value)
     editColor.value.modal = false
 }
-
-const cname = ref('')
 
 
 </script>

@@ -3,7 +3,7 @@ import SmallButton from './smallButton.vue';
 import ColorIndecator from './colorIndecator.vue';
 import { ColorCombination } from '../stores/types/color';
 import Color from 'color';
-defineProps({
+const props = defineProps({
     color: {
         type: Object,
         default: {
@@ -15,12 +15,12 @@ defineProps({
         } as ColorCombination
     }
 })
-const dummychips = ['eins','zwei','drei']
+console.log(props.color)
 </script>
 <template>
     <div class="card">
         <div class="name">
-            <ColorIndecator width="45px" :color1="color.foreground.hsl().toString()" :color2=color.background.hsl().toString() /> 
+            <ColorIndecator width="45px" :color1="color.foreground.toString()" :color2=color.background.toString() /> 
             <p>{{ color.name }}</p>
         </div>
         <div>

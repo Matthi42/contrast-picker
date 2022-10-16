@@ -24,7 +24,7 @@ let variant = colorStore.getColorVariantColorsByID(colorVariantID)
 const clickedArrow = async (n: number) => {
     await testStore.setTest(n) 
     // before the next question we check if the test was faild here
-    if(testStore.toManyMistakesInCurrentLine()) {
+    if(testStore.toManyMistakesInCurrentLine() || (testStore.test.currentPos[0] == 11 && testStore.test.currentPos[1] == 5)) {
         let color = colorStore.getColorVariantByID(route.params.colorVariantID as string)
         color.finishedTest = true
         colorStore.modifyColorVariant(color)
@@ -57,7 +57,7 @@ const currentSize = computed(() => `${Math.round(100 * Math.pow(0.8, testStore.t
             </div>
         </div>
         <div class="side">
-            <div>{{ testStore.mistakesInCurrentLine }}</div>
+            <!-- <div>{{ testStore.mistakesInCurrentLine }}</div> -->
             <BigButton @click="router.back">Pause</BigButton>
         </div>
     </div>
