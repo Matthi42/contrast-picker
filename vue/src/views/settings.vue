@@ -17,13 +17,13 @@ import Color from 'color';
 import ColorInput from '../components/colorInput.vue';
 
 const userStore = useUserStore()
-const users = userStore.fullUserList
+const users = computed(() => userStore.fullUserList)
 const currentUser = ref({birthday: '',colors: [],disabilities:[],familyName:'',id:'',name:''}) 
 
 const router = useRouter()
 
 const colorStore = useColorStore()
-const colors = await colorStore.mainColorList
+const colors = computed(() => colorStore.mainColorList)
 
 const disabilityStore = useDisabilityStore()
 const disabilities = disabilityStore.disabilitys

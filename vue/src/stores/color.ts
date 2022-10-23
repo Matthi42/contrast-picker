@@ -99,10 +99,7 @@ export const useColorStore = defineStore('color', () => {
         }
     })
 
-    const mainColorList = computed(async () => {
-        await mainPromise
-        Array.from(mainColors.value).map(([a,b]) => b)
-    })
+    const mainColorList = computed( () => Array.from(mainColors.value).map(([a,b]) => b))
 
 
     return {
