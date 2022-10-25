@@ -27,9 +27,6 @@ defineEmits(['edit'])
         <div class="chip-container">
             <div class="chip" v-for="e in user.disabilities.filter((o:any) => Boolean(o) )">{{ e }}</div>
         </div>
-        <div>
-            
-        </div>
     </div>
 
 </template>
@@ -61,7 +58,9 @@ defineEmits(['edit'])
     flex-direction: row;
     justify-content: flex-start;
     gap:30px;
-    
+    flex-wrap: wrap;
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
 .name {
     display:flex;

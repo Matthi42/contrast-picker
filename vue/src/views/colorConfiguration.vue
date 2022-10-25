@@ -100,10 +100,8 @@ const colors = computed(() => {
 })
 const restrictValues = ([h, s, l]: [number, number, number]) => {
     let [rh, rs, rl] = [h, s, l]
-    if (h < 0)
-        rh = h % 360
-    if (h > h % 360)
-        rh = 360
+    if (h < 0 || h > 360)
+        rh = (360 + h) % 360
     if (s < 0)
         rs = 0
     if (s > 100)

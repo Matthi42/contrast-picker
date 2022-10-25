@@ -5,7 +5,7 @@ type ColorCombination = {
     name: string,
     foreground: Color,
     background: Color,
-    disabilitys: undefined | string[]
+    disabilitys: string[]
 }
 type ColorCombinationSerialized = {
     id: string,

@@ -9,7 +9,7 @@ defineEmits({
 <template>
     <div v-if="modelValue" class="overlay" @click="$emit('close',true)">
         <div class="container">
-            <div>
+            <div class="content">
                 <slot name="content"/>
             </div>
             <div class="buttons">
@@ -53,5 +53,10 @@ defineEmits({
 .buttons {
     align-self: flex-end;
     padding: 20px;
+}
+
+.content {
+    max-height: 400px;
+    overflow: scroll;
 }
 </style>

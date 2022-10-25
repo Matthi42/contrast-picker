@@ -12,12 +12,17 @@ const emit = defineEmits(['update:selectedOption', 'update:options'])
 const open = ref(false)
 const newItem = ref('')
 const addItem = () => {
-    //TODO more validdation
     if(newItem.value) {
-        const op = props?.options
-        op?.push(newItem.value)
-        emit('update:options', op)
+        const op = props.options as string[]
+        if(!op.some(v => v == newItem.value)){
+            op.push(newItem.value)
+            console.log(op);
+            emit('update:options', op)
+        }
+        emit('update:selectedOption', newItem.value)
+        newItem.value=''
     }
+    
 }
 
 </script>
@@ -25,7 +30,7 @@ const addItem = () => {
 
     <div class="dropdown">
         <div class="label">
-            <label><slot/></label>
+            <label><slot/>{{newItem}}</label>
         </div>
         
         <div @click="open= !open" class="selected-option">
@@ -41,7 +46,7 @@ const addItem = () => {
         </div>
             <div class="dropdown-content" v-if="open">
             <div class="input">
-                <input type="text" v-bind="newItem"/>
+                <input type="text" v-model="newItem"/>
                 <SmallButton @click="addItem">hinzufügen</SmallButton>
             </div>
             <div v-for="o in options" @click="$emit('update:selectedOption',o == selectedOption ? undefined : o)" class="item"
@@ -77,7 +82,7 @@ div {
 
 .dropdown-content {
     display: flex;
-    position: absolute;
+    position: fixed;
     min-width: 160px;
     background-color: white;
     border-style: solid;
@@ -101,6 +106,7 @@ div {
     padding: 4px 20px 4px 20px;
     border-radius: 20px;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .input {

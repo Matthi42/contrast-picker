@@ -18,7 +18,7 @@ import ColorInput from '../components/colorInput.vue';
 
 const userStore = useUserStore()
 const users = computed(() => userStore.fullUserList)
-const currentUser = ref({birthday: '',colors: [],disabilities:[],familyName:'',id:'',name:''}) 
+const currentUser = ref({birthday: '',colors: [],disabilities:[] as string[],familyName:'',id:'',name:''}) 
 
 const router = useRouter()
 
@@ -39,6 +39,10 @@ const addUser = () => {
     
     editUser.value = true
 }
+const addDisability = () => {
+    currentUser.value.disabilities.push(option.value)
+}
+
 const saveUser = () => {
     //TODO: validation
     userStore.addUser(currentUser.value)
@@ -49,7 +53,7 @@ const saveUser = () => {
 
 const editColor = ref({modal: false, newColor: false})
 
-const color: Ref<ColorCombination> = ref({id: uuidv4(),name: '',background: new Color('#ffffff').hsl(),foreground: new Color('#ffffff').hsl(),disabilitys: [] })
+const color: Ref<ColorCombination> = ref({id: uuidv4(),name: '',background: new Color('#ffffff').hsl(),foreground: new Color('#ffffff').hsl(),disabilitys: [] as string[] })
 const background = computed({
     get() { return color.value.background.hex().toString()},
     set(s: string) {color.value.background = new Color(s).hsl()}
@@ -74,7 +78,12 @@ const saveColor = ()  => {
     editColor.value.modal = false
 }
 
+const addDisabilityColor = () => {
+    color.value.disabilitys.push(option.value)
+}
 
+
+const option = ref('')
 </script>
 
 <template>
@@ -86,7 +95,11 @@ const saveColor = ()  => {
                     <TextInput v-model="currentUser.familyName">Nachname</TextInput>
                 </div>
                 <DateInput v-model="currentUser.birthday">Geburtsdatum</DateInput>
-                <Dropdown  v-model:selectedOption="currentUser.disabilities[0]" v-model:options="disabilities">Erkrankung</Dropdown>
+                <div>
+                    <Dropdown  v-model:selectedOption="option" v-model:options="disabilities">Erkrankung</Dropdown>
+                    <SmallButton @click="addDisability">hinzufügen</SmallButton>
+                </div>
+                <p v-for="d in currentUser.disabilities">{{d}}</p>
             </div>
         </template>
         <template v-slot:buttons>
@@ -101,6 +114,11 @@ const saveColor = ()  => {
                 <TextInput v-model="color.name">Name</TextInput>
                 <ColorInput :disabled="!editColor.newColor" :color="foreground" @update:color="foreground = $event">Vordergrund</ColorInput>
                 <ColorInput :disabled="!editColor.newColor" :color="background" @update:color="background = $event">Hintergrund</ColorInput>
+                <div>
+                    <Dropdown  v-model:selectedOption="option" v-model:options="disabilities">Erkrankung</Dropdown>
+                    <SmallButton @click="addDisabilityColor">hinzufügen</SmallButton>
+                </div>
+                <p v-for="d in color.disabilitys">{{d}}</p>
             </div>
         </template>
         <template v-slot:buttons>
@@ -168,6 +186,5 @@ const saveColor = ()  => {
     align-items: flex-start;
     padding: 30px;
     gap: 15px;
-    overflow:scroll;
 }
 </style>
