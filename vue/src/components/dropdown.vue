@@ -98,7 +98,7 @@ div {
     justify-content: stretch;
     align-items: flex-start;
     max-height: 300px;
-    overflow: visible;
+    overflow-y: scroll;
     border-radius: 10px;
 }
 
