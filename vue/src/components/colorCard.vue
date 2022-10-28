@@ -3,6 +3,7 @@ import SmallButton from './smallButton.vue';
 import ColorIndecator from './colorIndecator.vue';
 import { ColorCombination } from '../stores/types/color';
 import Color from 'color';
+
 const props = defineProps({
     color: {
         type: Object,
@@ -11,10 +12,13 @@ const props = defineProps({
             background: new Color('#000000'),
             foreground: new Color('#ffffff'),
             name: 'test name',
-            disabilitys: ['drei', 'zwei', 'eins'],
+            disabilities: ['drei', 'zwei', 'eins'],
         } as ColorCombination
     }
 })
+
+const a = (props.color.foreground as Color).rgb().hex()
+
 console.log(props.color)
 </script>
 <template>
@@ -22,12 +26,13 @@ console.log(props.color)
         <div class="name">
             <ColorIndecator width="45px" :color1="color.foreground.toString()" :color2=color.background.toString() /> 
             <p>{{ color.name }}</p>
+            <span>({{ Math.round(color.foreground.contrast(color.background)*100)/100 }}:1)</span>
         </div>
         <div>
             <SmallButton @click="$emit('edit')">bearbeiten</SmallButton>
         </div>
         <div class="chip-container">
-            <div class="chip" v-for="e in color.disabilitys">{{ e }}</div>
+            <div class="chip" v-for="e in color.disabilities">{{ e }}</div>
         </div>
         <div>
 
