@@ -4,7 +4,7 @@ import UserCard from '../components/userCard.vue';
 import Modal from '../components/modal.vue';
 import Dropdown from '../components/dropdown.vue';
 import { useUserStore } from '../stores/users'
-import { computed, reactive, Ref, ref } from 'vue';
+import { computed, Ref, ref } from 'vue';
 import TextInput from '../components/textInput.vue';
 import DateInput from '../components/dateInput.vue';
 import ColorCard from '../components/colorCard.vue';
@@ -17,6 +17,7 @@ import { ColorCombination } from '../stores/types/color';
 import Color from 'color';
 import ColorInput from '../components/colorInput.vue';
 import Speaker from '../components/speaker.vue';
+import X from '../components/x.vue';
 
 const userStore = useUserStore()
 const users = computed(() => userStore.fullUserList)
@@ -116,11 +117,15 @@ const option = ref('')
                     <Dropdown  v-model:selectedOption="option" v-model:options="disabilities">Erkrankung</Dropdown>
                     <SmallButton @click="addDisability">hinzufügen</SmallButton>
                 </div>
-                <span v-for="d in currentUser.disabilities">{{d}}</span>
+                <div class="chip-x" v-for="d in currentUser.disabilities">
+                    <div>{{d}}</div>
+                    <X width="20" @click="currentUser.disabilities = currentUser.disabilities.filter(u => d !== u)"/>    
+                </div>
             </div>
         </template>
         <template v-slot:buttons>
             <SmallButton @click="saveUser">speichern</SmallButton>
+            <!-- <SmallButton @click="deleteUser(currentUser.id)">abbrechen</SmallButton> -->
         </template>
     </Modal>
     <Modal v-model="editColor.modal">
@@ -134,7 +139,10 @@ const option = ref('')
                     <Dropdown  v-model:selectedOption="option" v-model:options="disabilities">Erkrankung</Dropdown>
                     <SmallButton @click="addDisabilityColor">hinzufügen</SmallButton>
                 </div>
-                <p v-for="d in color.disabilities">{{d}}</p>
+                <div class="chip-x" v-for="d in color.disabilities">
+                    <div>{{d}}</div>
+                    <X width="20" @click="color.disabilities = color.disabilities.filter(u => d !== u)"/>
+                </div>
             </div>
         </template>
         <template v-slot:buttons>
@@ -208,5 +216,15 @@ const option = ref('')
     flex-direction: row;
     justify-content: space-between;
     width: 740px;
+}
+
+.chip-x {
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 100px;
+    display:flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
 }
 </style>
