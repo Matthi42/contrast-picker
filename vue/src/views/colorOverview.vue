@@ -6,6 +6,7 @@ import { useColorStore } from '../stores/color'
 import Modal from '../components/modal.vue';
 import { ref } from 'vue';
 import { useTestStore } from '../stores/test'
+import { useUserStore } from '../stores/users';
 
 const route = useRoute()
 const userID = route.params.userID as string
@@ -15,7 +16,8 @@ const modalOpen = ref(false)
 const selectedColorID = ref('')
 
 const testStore = useTestStore()
-
+const userStore = useUserStore() 
+const user = userStore.userByID(route.params.userID as string)
 
 const logOut = () => {
     router.push({ name: 'login' })
@@ -72,7 +74,7 @@ const overwriteTest = async () => {
         </div>
         <div class="scroll">
             <BigColorCard 
-                v-for="c in colorStore.colorsByUser(route.params.userID as string)" 
+                v-for="c in colorStore.colorsByUser(user)" 
                 :data="c"
                 @create-variant="createVariante(c.id)"
                 @edit="editVariant"

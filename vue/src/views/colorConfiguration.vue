@@ -2,12 +2,14 @@
 import { useColorStore } from '../stores/color';
 import { useDialStore } from '../stores/dial';
 import { useRoute, useRouter } from 'vue-router';
-import { onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { computed, reactive } from '@vue/reactivity';
 import ColorIndecator from '../components/colorIndecator.vue'
 import AngleIndecator from '../components/angleIndecator.vue'
 import BigButton from '../components/bigButton.vue'
 import Color from 'color'
+import { speak } from '../utils/speak';
+import { useUserStore } from '../stores/users';
 
 const route = useRoute()
 const router = useRouter()
@@ -17,7 +19,7 @@ const dialStore = useDialStore()
 dialStore.startMesuaring()
 
 // non reactice variables
-let { mainColorID, foregroundChanges: fore, backgroundChanges: back, id, finishedTest } = colorStore.getColorVariantByID(route.params.colorVariantID as string)
+let { mainColorID, foregroundChanges: fore, backgroundChanges: back, id, finishedTest, userID } = colorStore.getColorVariantByID(route.params.colorVariantID as string)
 const { foreground: mainForeground, background: mainBackground } = colorStore.getMainColorByID(mainColorID)
 
 const foregroundChanges = ref(fore)
@@ -115,7 +117,16 @@ const restrictValues = ([h, s, l]: [number, number, number]) => {
 
 const textSizes = ref([36, 32, 24, 20, 16, 15])
 
-
+onMounted(async () => {
+    if(useUserStore().userByID(userID).speak){
+        await speak(
+            'Hier kann die Vordergrundfarbe und die Hintergrundfarbe angepasst werden. ' +
+            'Drehe alle Regler so dass die Zeiger rechts übereinstimmen und grün werden. ' +
+            'Dann kann die Farbe mit den Reglern verändert werden. Die Regler verändern Farbton, Sättigung und Helligkeit einer Farbe. ' +
+            'Um die Farbe zu wechseln drücke auf das Wort.'
+        , 'de')
+    }
+})
 </script>
 <template>
     <div class="grid">
