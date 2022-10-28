@@ -30,22 +30,28 @@ export const useUserStore = defineStore('user', () => {
             familyName: "",
             name: "",
             birthday: "",
-            disabilities: [],
-            colors: []
+            disabilities: [] as string[],
+            colors: [] as string [],
+            speak: false
         }
         users.value.set(newu.id, newu)
         return newu
     }
     const fullUserList = computed(() => Array.from(users.value).map(([a,u]) => u))
-    const userList = computed(() => Array.from(users.value).map(([a,u]) => ({ name: u.name, id: u.id })))
+    const userList = computed(() => Array.from(users.value).map(([a,u]) => ({ name: `${u.name} ${u.familyName}`, id: u.id })))
     const userByID =  (id:string) => users.value.get(id) as User
     const hasLoadet = ref(false)
+
+    const deleteUser = (userID: string) => {
+        users.value.delete(userID)
+    }
 
     return {
         users,
         userList,
         hasLoadet,
         fullUserList,
+        deleteUser,
         userByID,
         addUser,
         newUser

@@ -9,16 +9,18 @@ import TextInput from '../components/textInput.vue';
 import DateInput from '../components/dateInput.vue';
 import ColorCard from '../components/colorCard.vue';
 import { useColorStore } from '../stores/color';
+import { useTestStore } from '../stores/test';
 import { v4 as uuidv4 } from 'uuid';
 import { useDisabilityStore } from '../stores/disabilitys'
 import { useRouter } from 'vue-router'
 import { ColorCombination } from '../stores/types/color';
 import Color from 'color';
 import ColorInput from '../components/colorInput.vue';
+import Speaker from '../components/speaker.vue';
 
 const userStore = useUserStore()
 const users = computed(() => userStore.fullUserList)
-const currentUser = ref({birthday: '',colors: [],disabilities:[] as string[],familyName:'',id:'',name:''}) 
+const currentUser = ref({birthday: '',colors: [] as string[],disabilities:[] as string[],familyName:'',id:'',name:'', speak:false}) 
 
 const router = useRouter()
 
@@ -26,7 +28,7 @@ const colorStore = useColorStore()
 const colors = computed(() => colorStore.mainColorList)
 
 const disabilityStore = useDisabilityStore()
-const disabilities = disabilityStore.disabilitys
+const disabilities = disabilityStore.disabilities
 
 const editUser = ref(false)
 const editUserData = (id:string) => {
@@ -47,13 +49,20 @@ const saveUser = () => {
     //TODO: validation
     userStore.addUser(currentUser.value)
     console.log(currentUser.value);
-    
     editUser.value=false
+    option.value = ''
+}
+
+const testStore = useTestStore()
+const deleteUser = (userID: string) => {
+    userStore.deleteUser(userID)
+    const IDs = colorStore.deleteVariantsByUser(userID)
+    IDs.forEach(id => testStore.deleteTest(id))
 }
 
 const editColor = ref({modal: false, newColor: false})
 
-const color: Ref<ColorCombination> = ref({id: uuidv4(),name: '',background: new Color('#ffffff').hsl(),foreground: new Color('#ffffff').hsl(),disabilitys: [] as string[] })
+const color: Ref<ColorCombination> = ref({id: uuidv4(),name: '',background: new Color('#ffffff').hsl(),foreground: new Color('#ffffff').hsl(),disabilities: ['a'] as string[] })
 const background = computed({
     get() { return color.value.background.hex().toString()},
     set(s: string) {color.value.background = new Color(s).hsl()}
@@ -79,7 +88,7 @@ const saveColor = ()  => {
 }
 
 const addDisabilityColor = () => {
-    color.value.disabilitys.push(option.value)
+    color.value.disabilities.push(option.value)
 }
 
 
@@ -87,24 +96,26 @@ const option = ref('')
 </script>
 
 <template>
-    <Modal v-model="editUser">
+    <Modal v-model="editUser" @close="saveUser">
         <template v-slot:content>
             <div class="user-modal">
-                <div>
-                    <TextInput v-model="(currentUser.name)">Vorname</TextInput>
-                    <TextInput v-model="currentUser.familyName">Nachname</TextInput>
+                <div class= horizontal-group>
+                    <div>
+                        <TextInput v-model="(currentUser.name)">Vorname</TextInput>
+                        <TextInput v-model="currentUser.familyName">Nachname</TextInput>
+                    </div>
+                        <Speaker v-model="currentUser.speak"/>
                 </div>
                 <DateInput v-model="currentUser.birthday">Geburtsdatum</DateInput>
                 <div>
                     <Dropdown  v-model:selectedOption="option" v-model:options="disabilities">Erkrankung</Dropdown>
                     <SmallButton @click="addDisability">hinzufügen</SmallButton>
                 </div>
-                <p v-for="d in currentUser.disabilities">{{d}}</p>
+                <span v-for="d in currentUser.disabilities">{{d}}</span>
             </div>
         </template>
         <template v-slot:buttons>
             <SmallButton @click="saveUser">speichern</SmallButton>
-            <SmallButton @click="editUser = false">abbrechen</SmallButton>
         </template>
     </Modal>
     <Modal v-model="editColor.modal">
@@ -118,7 +129,7 @@ const option = ref('')
                     <Dropdown  v-model:selectedOption="option" v-model:options="disabilities">Erkrankung</Dropdown>
                     <SmallButton @click="addDisabilityColor">hinzufügen</SmallButton>
                 </div>
-                <p v-for="d in color.disabilitys">{{d}}</p>
+                <p v-for="d in color.disabilities">{{d}}</p>
             </div>
         </template>
         <template v-slot:buttons>
@@ -140,7 +151,7 @@ const option = ref('')
                 <div>Benutzer</div>
                 <SmallButton variant="secondary" @click="addUser">Benutzer hinzufügen</SmallButton>
             </div>
-            <UserCard v-for="u in users" :user="u" @edit="editUserData(u.id)" />
+            <UserCard v-for="u in users" :user="u" @edit="editUserData(u.id)" @delete="deleteUser(u.id)"/>
             <div class="title-card">
                 <div>Hauptfarben</div>
                 <SmallButton variant="secondary" @click="addColor">Farbe hinzufügen</SmallButton>
@@ -186,5 +197,11 @@ const option = ref('')
     align-items: flex-start;
     padding: 30px;
     gap: 15px;
+}
+.horizontal-group {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 740px;
 }
 </style>

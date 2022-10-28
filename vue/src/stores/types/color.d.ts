@@ -5,13 +5,14 @@ type ColorCombination = {
     name: string,
     foreground: Color,
     background: Color,
-    disabilitys: string[]
+    disabilities: string[]
 }
 type ColorCombinationSerialized = {
     id: string,
     name: string,
     foreground: string,
-    background: string
+    background: string,
+    disabilities: string[]
 }
 
 type ColorVariant = {

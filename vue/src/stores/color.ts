@@ -9,57 +9,64 @@ const deSerializeColor = (color: string) => Color(color).hsl()
 
 
 export const useColorStore = defineStore('color', () => {
-    const mainColors = ref(new Map() as Map<string,ColorCombination>)
+    const mainColors = ref(new Map() as Map<string, ColorCombination>)
     const colorVariants = reactive([] as ColorVariant[])
 
-    const mainPromise = Neutralino.storage.getData('main-colors').then(c => {
+    Neutralino.storage.getData('main-colors').then(c => {
         mainColors.value = new Map(
-            (JSON.parse(c) as Array<ColorCombinationSerialized>).map((co) => ([co.id,{
+            (JSON.parse(c) as Array<ColorCombinationSerialized>).map((co) => ([co.id, {
                 id: co.id,
                 name: co.name,
                 foreground: deSerializeColor(co.foreground),
                 background: deSerializeColor(co.background),
+                disabilities: co.disabilities
             } as ColorCombination]))
         )
     }).catch(e => {
-        Neutralino.storage.setData('color','[]')
+        Neutralino.storage.setData('main-colors', '[]')
     })
     Neutralino.storage.getData('color-variants').then(c => {
         Object.assign(colorVariants, reactive(JSON.parse(c) as ColorVariant[]))
     }).catch(async e => {
-        await Neutralino.storage.setData('color-variants','[]')
+        await Neutralino.storage.setData('color-variants', '[]')
     })
     watch(mainColors, async (newVal, oldVal) => {
         await Neutralino.storage.setData(
             'main-colors',
-            JSON.stringify(Array.from(newVal).map(([k,c])=> ({
+            JSON.stringify(Array.from(newVal).map(([k, c]) => ({
                 id: c.id,
                 name: c.name,
                 foreground: serializeColor(c.foreground),
                 background: serializeColor(c.background),
+                disabilities: c.disabilities
             })))
         )
-    }, {deep: true})
+    }, { deep: true })
     watch(colorVariants, async (newVal, oldVal) => {
         await Neutralino.storage.setData('color-variants', JSON.stringify(newVal))
     })
 
 
-    const colorsByUser = computed(() => (userID: string) =>
-        Array.from(mainColors.value).map(( [k,c] ) => ({
+    const colorsByUser = computed(() => (user: User) =>
+        Array.from(mainColors.value).map(([k, c]) => ({
             id: c.id,
             name: c.name,
             foreground: c.foreground.hsl().string(),
             background: c.background.hsl().string(),
             variants: colorVariants
-                .filter((v) => v.mainColorID === c.id && userID === v.userID)
+                .filter((v) => v.mainColorID === c.id && user.id === v.userID)
                 .map((v) => ({
                     id: v.id,
                     // TODO: validation
                     foreground: `hsl(${c.foreground.hue() + v.foregroundChanges[0]} ${c.foreground.saturationl() + v.foregroundChanges[1]}% ${c.foreground.lightness() + v.foregroundChanges[2]}%)`,
                     background: `hsl(${c.background.hue() + v.backgroundChanges[0]} ${c.background.saturationl() + v.backgroundChanges[1]}% ${c.background.lightness() + v.backgroundChanges[2]}%)`
-                }))
-        })) as UserColors
+                })),
+            disabilities: c.disabilities
+        })).sort((a, b) => {
+            if (a.disabilities.some(d => user.disabilities.some(dis => dis === d)))
+                return -1
+            else return 1
+        }) as UserColors
     )
     const createColorVariant = (userID: string, combinationID: string) => {
         colorVariants.push({
@@ -82,7 +89,7 @@ export const useColorStore = defineStore('color', () => {
 
     const newColor = () => {
         const newc = {
-            id: uuidv4(), name: '', background: new Color('#ffffff').hsl(), foreground: new Color('#ffffff').hsl(), disabilitys: []
+            id: uuidv4(), name: '', background: new Color('#ffffff').hsl(), foreground: new Color('#ffffff').hsl(), disabilities: []
         }
         mainColors.value.set(newc.id, newc)
         return newc as ColorCombination
@@ -99,8 +106,34 @@ export const useColorStore = defineStore('color', () => {
         }
     })
 
-    const mainColorList = computed( () => Array.from(mainColors.value).map(([a,b]) => b))
+    const mainColorList = computed(() => Array.from(mainColors.value).map(([a, b]) => b))
 
+    const deleteVariantsByUser = (userID: string) => {
+        let IDs = []
+        let index = 1
+        while (index > -1) {
+            index = colorVariants.findIndex(v => v.userID === userID)
+            if (index > -1) {
+                IDs.push(colorVariants[index].id)
+                colorVariants.splice(index, 1)
+            }
+        }
+        return IDs
+    }
+
+    const deleteMainColor = (colorID: string) => {
+        mainColors.value.delete(colorID)
+        let IDs = []
+        let index = 1
+        while (index > -1) {
+            index = colorVariants.findIndex(v => v.mainColorID === colorID)
+            if (index > -1) {
+                IDs.push(colorVariants[index].id)
+                colorVariants.splice(index, 1)
+            }
+        }
+        return IDs
+    }
 
     return {
         mainColors,
@@ -109,6 +142,7 @@ export const useColorStore = defineStore('color', () => {
         getMainColorByID,
         getColorVariantByID,
         getColorVariantColorsByID,
+        deleteVariantsByUser,
         createColorVariant,
         modifyColorVariant,
         newColor,

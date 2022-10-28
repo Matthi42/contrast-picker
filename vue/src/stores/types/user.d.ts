@@ -4,5 +4,6 @@ type User = {
     name: string,
     birthday: string | Date,
     disabilities: string[],
-    colors: string[]
+    colors: string[],
+    speak: boolean,
 }
