@@ -6,7 +6,6 @@ export const useTestStore = defineStore('test', () => {
     const currentTest = ref(undefined) as Ref<string | undefined>
     const tests = reactive(new Map() as testMap)
     const testIDs = reactive([] as string[])
-    const mistakeMade = new Promise(() => {})
 
     // data from key-value store is loadet into store
     const promise = Neutralino.storage.getData('tests').then(v => {
@@ -62,7 +61,6 @@ export const useTestStore = defineStore('test', () => {
         await promise
         currentTest.value = testID
         if (!testIDs.some(t => t === testID)) {
-            //TODO connstruct the test
             const newTest = {
                 id: testID,
                 result: [1,2,3,4,5,6,7,8,9,10,11,12].map(i => 
@@ -99,7 +97,7 @@ export const useTestStore = defineStore('test', () => {
      * [{x}{ }]        -> length=2
      * [{ }{ } }]      -> length=3
      * [{ }{ }{ }]     -> length=3
-     * nedd to increment second index
+     * need to increment second index
      * pos: [1,1]
      */
     const nextQuestion = async () => {
