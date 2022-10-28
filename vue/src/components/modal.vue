@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+
 defineProps({ modelValue: Boolean })
-defineEmits({ 
+const emit = defineEmits({ 
     'update:modelValue': Boolean,
     'close' : Boolean
 })
+const clicktarget = ref(null)
+onClickOutside(clicktarget, (event) => emit('close', true))
 
 </script>
 <template>
-    <div v-if="modelValue" class="overlay" @click="$emit('close',true)">
-        <div class="container">
+    <div v-if="modelValue" class="overlay">
+        <div class="container" ref="clicktarget">
             <div class="content">
                 <slot name="content"/>
             </div>
