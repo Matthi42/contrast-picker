@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/components": "^9.4.0",
+    "@vueuse/core": "^9.4.0",
     "color": "^4.2.3",
     "pinia": "^2.0.22",
     "uuid": "^9.0.0",
