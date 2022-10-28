@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SmallButton from './smallButton.vue';
+import TrashCan from './trashCan.vue';
 defineProps({
     user: {
         type: Object,
@@ -13,7 +14,7 @@ defineProps({
         } as User
     }
 })
-defineEmits(['edit'])
+defineEmits(['edit','delete'])
 
 </script>
 <template>
@@ -21,8 +22,9 @@ defineEmits(['edit'])
         <div class="name">
             <p>{{ user.name }}</p>
         </div>
-        <div>
+        <div class="h-group">
             <SmallButton @click="$emit('edit')">bearbeiten</SmallButton>
+            <TrashCan @delete="$emit('delete')">soll der Benutzer wirklich gelöscht werden?</TrashCan>
         </div>
         <div class="chip-container">
             <div class="chip" v-for="e in user.disabilities.filter((o:any) => Boolean(o) )">{{ e }}</div>
@@ -38,7 +40,7 @@ defineEmits(['edit'])
     border-color: gray;
 
     display:grid;
-    grid-template-columns: auto 200px;
+    grid-template-columns: auto 220px;
     grid-template-rows: auto auto;
 
     font-size: 20pt;
@@ -68,6 +70,13 @@ defineEmits(['edit'])
     justify-content: flex-start;
     gap:10px;
     align-items: center;
+}
+
+.h-group {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 </style>
