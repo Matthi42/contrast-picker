@@ -91,6 +91,11 @@ const addDisabilityColor = () => {
     color.value.disabilities.push(option.value)
 }
 
+const deleteColor = (colorID: string) => {
+    const IDs = colorStore.deleteMainColor(colorID)
+    IDs.forEach(id => {testStore.deleteTest(id)})
+}
+
 
 const option = ref('')
 </script>
@@ -156,7 +161,7 @@ const option = ref('')
                 <div>Hauptfarben</div>
                 <SmallButton variant="secondary" @click="addColor">Farbe hinzufügen</SmallButton>
             </div>
-            <ColorCard v-for="c in colors" :color="c" @click="editColorName(c)" />
+            <ColorCard v-for="c in colors" :color="c" @edit="editColorName(c)" @delete="deleteColor(c.id)"/>
         </div>
     </div>
 </template>

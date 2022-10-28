@@ -145,6 +145,7 @@ export const useColorStore = defineStore('color', () => {
         deleteVariantsByUser,
         createColorVariant,
         modifyColorVariant,
+        deleteMainColor,
         newColor,
         addColor,
     }

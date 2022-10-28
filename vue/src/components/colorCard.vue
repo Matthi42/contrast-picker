@@ -3,6 +3,7 @@ import SmallButton from './smallButton.vue';
 import ColorIndecator from './colorIndecator.vue';
 import { ColorCombination } from '../stores/types/color';
 import Color from 'color';
+import TrashCan from './trashCan.vue';
 
 const props = defineProps({
     color: {
@@ -28,8 +29,9 @@ console.log(props.color)
             <p>{{ color.name }}</p>
             <span>({{ Math.round(color.foreground.contrast(color.background)*100)/100 }}:1)</span>
         </div>
-        <div>
+        <div  class="h-group">
             <SmallButton @click="$emit('edit')">bearbeiten</SmallButton>
+            <TrashCan @delete="$emit('delete')">sollen die Hauptfarben wirklich gelöscht werden?</TrashCan>
         </div>
         <div class="chip-container">
             <div class="chip" v-for="e in color.disabilities">{{ e }}</div>
@@ -47,7 +49,7 @@ console.log(props.color)
     border-color: gray;
 
     display: grid;
-    grid-template-columns: auto 200px;
+    grid-template-columns: auto 220px;
     grid-template-rows: auto auto;
     //padding: 0 20px 0 20px;
 
@@ -77,5 +79,12 @@ console.log(props.color)
     justify-content: flex-start;
     gap:10px;
     align-items: center;
+}
+
+.h-group {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 </style>
