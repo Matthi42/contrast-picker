@@ -1,5 +1,6 @@
 <script setup lang="ts">import { ref } from 'vue';
 import SmallButton from './smallButton.vue';
+import { onClickOutside } from '@vueuse/core'
 
 const props = defineProps({
     options: Array<String>,
@@ -24,6 +25,9 @@ const addItem = () => {
     }
     
 }
+const target = ref(null)
+
+onClickOutside(target, (event) => open.value = false)
 
 </script>
 <template>
@@ -44,7 +48,7 @@ const addItem = () => {
 
             </div>
         </div>
-            <div class="dropdown-content" v-if="open">
+        <div class="dropdown-content" v-if="open" ref="target">
             <div class="input">
                 <input type="text" v-model="newItem"/>
                 <SmallButton @click="addItem">hinzufügen</SmallButton>
