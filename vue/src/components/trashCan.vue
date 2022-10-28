@@ -31,7 +31,7 @@ onClickOutside(trash, _ => { open.value = false })
     </div>
 
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .dropdown {
     position: relative;
     display: inline-block;
