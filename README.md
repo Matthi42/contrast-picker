@@ -30,3 +30,5 @@ neu build
 To add native functionality like reading the ADC neu extensions are found in `extensions/*`.
 
 The vue app is located at `vue/*`.
+
+Further documentation can be found in  `docs/*`
