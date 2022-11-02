@@ -60,7 +60,10 @@ npm run build
 ```
 Then you cen build the neutralino Application. The resulting Binaries can be found in the `dist/` folder.
 ```
-neu build.
+neu build
 ```
 ## Required Packages
-
+eSpeak NG is required for  speech synthesis.
+```
+sudo apt-get install espeak-ng espeak-ng-espeak mbrola 
+``` 
