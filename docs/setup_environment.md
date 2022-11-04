@@ -2,10 +2,24 @@
 
 ## setup the Raspberry Pi
 
+For the Display to function correct some configuration in the config.txt file has to be done.
+You can edit this file right after you flashed the OS on the SD card or as super user with a text editor.
+after you made your changes you need to reboot the os.
+```
+$ sudo nano /boot/config.txt
+```
+
+The case has a Power-Button and a transistor that can power on the fan.
+You need to configure GPIO-Pins for these.
+These will also be configured in the `config.txt`.
+```
+
+```
+
 ## development environment
 
 The recommended development environment ist Visual Studio Code.
-To develpo on the Pi from a different Computer use the [Remote - SSH](vscode:extension/ms-vscode-remote.remote-ssh) extension.
+To develop on the Pi from a different Computer use the [Remote - SSH](vscode:extension/ms-vscode-remote.remote-ssh) extension.
 For Vue use the [Vue Language Features (Volar)](vscode:extension/Vue.volar) extension. For Python the  [Python](vscode:extension/ms-python.python) extension.
 
 To setup the Raspberry Pi for Remote Development you just need to enable ssh.
