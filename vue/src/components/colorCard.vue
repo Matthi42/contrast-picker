@@ -4,6 +4,7 @@ import ColorIndecator from './colorIndecator.vue';
 import { ColorCombination } from '../stores/types/color';
 import Color from 'color';
 import TrashCan from './trashCan.vue';
+import Pen from './pen.vue';
 
 const props = defineProps({
     color: {
@@ -18,19 +19,17 @@ const props = defineProps({
     }
 })
 
-const a = (props.color.foreground as Color).rgb().hex()
-
-console.log(props.color)
 </script>
 <template>
     <div class="card">
         <div class="name">
             <ColorIndecator width="45px" :color1="color.foreground.toString()" :color2=color.background.toString() /> 
             <p>{{ color.name }}</p>
-            <span>({{ Math.round(color.foreground.contrast(color.background)*100)/100 }}:1)</span>
+            
         </div>
         <div  class="h-group">
-            <SmallButton @click="$emit('edit')">bearbeiten</SmallButton>
+            <span>{{ Math.round(color.foreground.contrast(color.background)*100)/100 }}:1</span>
+            <Pen @click="$emit('edit')" width="40">bearbeiten</Pen>
             <TrashCan @delete="$emit('delete')">sollen die Hauptfarben wirklich gelöscht werden?</TrashCan>
         </div>
         <div class="chip-container">
@@ -49,15 +48,11 @@ console.log(props.color)
     border-color: gray;
 
     display: grid;
-    grid-template-columns: auto 220px;
+    grid-template-columns: auto 260px;
     grid-template-rows: auto auto;
     //padding: 0 20px 0 20px;
 
     font-size: 20pt;
-
-    div {
-        padding: 10px;
-    }
 }
 
 .chip {
@@ -71,6 +66,7 @@ console.log(props.color)
     flex-direction: row;
     justify-content: flex-start;
     gap: 30px;
+    padding:10px;
 
 }
 .name {
@@ -79,12 +75,17 @@ console.log(props.color)
     justify-content: flex-start;
     gap:10px;
     align-items: center;
+    padding:10px
 }
 
 .h-group {
+    padding:10px;
     display:flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: flex-end;
+    align-items: center;
+    gap:10px;
+    font-weight: 600;
+    padding-right: 20px;
 }
 </style>
