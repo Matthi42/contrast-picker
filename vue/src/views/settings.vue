@@ -89,6 +89,7 @@ const editColorName = (c: ColorCombination) => {
 const saveColor = ()  => {
     colorStore.addColor(color.value)
     editColor.value.modal = false
+    option.value = ''
 }
 
 const addDisabilityColor = () => {
