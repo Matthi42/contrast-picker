@@ -115,7 +115,7 @@ const restrictValues = ([h, s, l]: [number, number, number]) => {
     return [rh, rs, rl]
 }
 
-const textSizes = ref([36, 32, 24, 20, 16, 15])
+const textSizes = ref([42, 36, 32, 24, 20, 16, 15])
 
 onMounted(async () => {
     if (useUserStore().userByID(userID).speak) {
@@ -189,7 +189,7 @@ onUnmounted(async() => {
 .text-board {
     padding: 30px;
     border-radius: 30px;
-    margin-left:25px;
+    margin-left:60px;
 }
 
 .board-container {
