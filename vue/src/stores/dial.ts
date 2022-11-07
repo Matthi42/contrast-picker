@@ -45,7 +45,12 @@ export const useDialStore = defineStore('dial', () => {
 
     // getter and setter for isMesuring
     const startMesuaring = () => {
-       isMeasureing.value = true 
+        // set values to unreachable value to avoid problems
+        dial0.value = -1000
+        dial1.value = -1000
+        dial2.value = -1000
+        dial3.value = -1000
+        isMeasureing.value = true 
     }
     const stopMesuaring = () => {
         isMeasureing.value = false 
