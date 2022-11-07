@@ -7,10 +7,11 @@ import { computed, reactive } from '@vue/reactivity';
 import ColorIndecator from '../components/colorIndecator.vue'
 import AngleIndecator from '../components/angleIndecator.vue'
 import Back from '../components/back.vue'
-import BigButton from '../components/bigButton.vue'
 import Color from 'color'
 import { speak } from '../utils/speak';
 import { useUserStore } from '../stores/users';
+
+let stop:any
 
 const route = useRoute()
 const router = useRouter()
@@ -103,8 +104,6 @@ const colors = computed(() => {
 })
 const restrictValues = ([h, s, l]: [number, number, number]) => {
     let [rh, rs, rl] = [h, s, l]
-    if (h < 0 || h > 360)
-        rh = (360 + h) % 360
     if (s < 0)
         rs = 0
     if (s > 100)
@@ -120,13 +119,18 @@ const textSizes = ref([36, 32, 24, 20, 16, 15])
 
 onMounted(async () => {
     if (useUserStore().userByID(userID).speak) {
-        await speak(
+        stop = await speak(
             'Hier kann die Vordergrundfarbe und die Hintergrundfarbe angepasst werden. ' +
             'Drehe alle Regler so dass die Zeiger rechts übereinstimmen und grün werden. ' +
-            'Dann kann die Farbe mit den Reglern verändert werden. Die Regler verändern Farbton, Sättigung und Helligkeit einer Farbe. ' +
+            'Dann kann die Farbe mit den Reglern verändert werden.' +
+            ' Die Regler verändern Farbton, Sättigung und Helligkeit einer Farbe. ' +
             'Um die Farbe zu wechseln drücke auf das Wort.'
             , 'de')
     }
+})
+
+onUnmounted(async() => {
+    await stop()
 })
 </script>
 <template>
@@ -141,7 +145,7 @@ onMounted(async () => {
             </div>
         </div>
         <div class="indecator-container">
-            <div :style="{ backgroundColor: workingOnForeground ? colors.foreground : colors.background }">
+            <div :style="{ backgroundColor: workingOnForeground ? colors.foreground : colors.background }" @click="switchFocus">
                 <p
                     :style="{ color: workingOnForeground ? (Color(colors.foreground).isLight() ? 'black' : 'white') : (Color(colors.background).isLight() ? 'black' : 'white') }">
                     {{ workingOnForeground ? 'Vordergrund' : 'Hintergrund' }}</p>
@@ -151,10 +155,6 @@ onMounted(async () => {
                     @click="switchFocus" />
                 <div>{{ dialsCalibrated ? '' : '' }}</div>
             </div>
-        </div>
-        <div class="button-container">
-        
-            <BigButton>Test</BigButton>
         </div>
         <div class="indecators" :class="{ 'indecator-container-calibrated': dialsCalibrated }">
             <AngleIndecator :min-value="-25" :max-value="25"
@@ -173,7 +173,7 @@ onMounted(async () => {
 <style scoped lang="scss">
 .grid {
     display: grid;
-    grid-template-columns: 380px auto 230px 260px;
+    grid-template-columns: auto auto  260px;
     height: 720px;
     background-color: gray;
 }
