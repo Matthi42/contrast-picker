@@ -37,7 +37,14 @@ const deleteVariant = (id: string) => {
     colorStore.deleteVariantByID(id)
 }
 
-
+const wcag = (a: number) => {
+    if (a < 3)
+        return 'A'
+    if (a < 4.5)
+        return 'AA'
+    else
+        return 'AAA'
+}
 
 
 </script>
@@ -95,6 +102,9 @@ const deleteVariant = (id: string) => {
                                             Color(c.variant.foreground)).contrast(new
                                                 Color(c.variant.background)) * 100) / 100
                                     }}:1</div>
+                                    <div>WCAG 2.1: {{ wcag(Math.round((new
+                                Color(c.variant.foreground)).contrast(new
+                                    Color(c.variant.background)) * 100) / 100) }}</div>
                                     <div>Score: {{ c.test == 0 ? "kein Test" : c.test }}</div>
                                 </div>
                                 <TrashCan @delete="deleteVariant(c.variant.id)">Soll die Variante wirklich gelöscht
