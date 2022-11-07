@@ -54,7 +54,7 @@ const switchFocus = () => {
     workingOnForeground.value = !workingOnForeground.value
 }
 
-onUnmounted(() => {
+onUnmounted(async () => {
     colorStore.modifyColorVariant({
         foregroundChanges: foregroundChanges.value,
         backgroundChanges: backgroundChanges.value,
@@ -64,6 +64,7 @@ onUnmounted(() => {
         finishedTest: finishedTest
     })
     dialStore.stopMesuaring()
+    await stop()
 })
 const mapValues = computed(() => (x: number, min: number = 0, max: number = 26300) => {
     const factor = (2 * x) / (max - min)
@@ -129,9 +130,7 @@ onMounted(async () => {
     }
 })
 
-onUnmounted(async() => {
-    await stop()
-})
+
 </script>
 <template>
     <Teleport to="#back">
