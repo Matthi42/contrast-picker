@@ -19,6 +19,7 @@ import ColorInput from '../components/colorInput.vue';
 import Speaker from '../components/speaker.vue';
 import X from '../components/x.vue';
 import Back from '../components/back.vue';
+import { onKeyStroke } from '@vueuse/core';
 
 const userStore = useUserStore()
 const users = computed(() => userStore.fullUserList)
@@ -99,6 +100,12 @@ const deleteColor = (colorID: string) => {
     IDs.forEach(id => {testStore.deleteTest(id)})
 }
 
+onKeyStroke('Enter', () => {
+    if(editColor.value) 
+        saveColor()
+    if(editUser.value)
+        saveUser()    
+})
 
 const option = ref('')
 </script>
