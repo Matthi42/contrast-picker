@@ -8,5 +8,6 @@ export  const speak = async (text: string, lang: 'de'|'en') => {
          language = 'english'
          break
       }
-   await Neutralino.os.execCommand(`espeak-ng -v ${language} -s 150 -p 60 "${text}"`)
+   const process = await Neutralino.os.spawnProcess(`espeak-ng -v ${language} -s 150 -p 60 "${text}"`)
+   return () => Neutralino.os.updateSpawnedProcess(process.id, 'exit')
 }
