@@ -2,6 +2,7 @@
 import BigButton from '../components/bigButton.vue';
 import SmallButton from '../components/smallButton.vue';
 import { useRouter } from 'vue-router'
+import Gear from '../components/gear.vue';
 
 
 const router = useRouter()
@@ -20,11 +21,11 @@ const settings = () => {
             <BigButton :variant="'secondary'" @click="startApp">Start App</BigButton>
         </div>
         <div class="right">
-            <SmallButton @click="settings">Einstellungen</SmallButton>
+            <SmallButton @click="settings"><Gear width="30"/> Einstellungen</SmallButton>
         </div>
     </div>
 </template>
-<style>
+<style scoped lang="scss">
 .center {
     display: flex;
     align-items: center;
