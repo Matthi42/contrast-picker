@@ -38,8 +38,6 @@ const editUserData = (id:string) => {
 }
 const addUser = () => {
     currentUser.value = userStore.newUser()
-    console.log(currentUser);
-    
     editUser.value = true
 }
 const addDisability = () => {
@@ -49,7 +47,6 @@ const addDisability = () => {
 const saveUser = () => {
     //TODO: validation
     userStore.addUser(currentUser.value)
-    console.log(currentUser.value);
     editUser.value=false
     option.value = ''
 }
@@ -59,6 +56,10 @@ const deleteUser = (userID: string) => {
     userStore.deleteUser(userID)
     const IDs = colorStore.deleteVariantsByUser(userID)
     IDs.forEach(id => testStore.deleteTest(id))
+}
+
+const openUserDetail = (UserID: string) => {
+    router.push({name: 'userDetail', params: {userID: UserID}})
 }
 
 const editColor = ref({modal: false, newColor: false})
@@ -133,8 +134,10 @@ const option = ref('')
             <!-- <Dropdown v-model:selectedOption="op" v-model:options="options">title</Dropdown> -->
             <div class="user-modal">
                 <TextInput v-model="color.name">Name</TextInput>
-                <ColorInput :disabled="!editColor.newColor" :color="foreground" @update:color="foreground = $event">Vordergrund</ColorInput>
-                <ColorInput :disabled="!editColor.newColor" :color="background" @update:color="background = $event">Hintergrund</ColorInput>
+                <div>
+                    <ColorInput :disabled="!editColor.newColor" :color="foreground" @update:color="foreground = $event">Vordergrund</ColorInput>
+                    <ColorInput :disabled="!editColor.newColor" :color="background" @update:color="background = $event">Hintergrund</ColorInput>
+                </div>
                 <div>
                     <Dropdown  v-model:selectedOption="option" v-model:options="disabilities">Erkrankung</Dropdown>
                     <SmallButton @click="addDisabilityColor">hinzufügen</SmallButton>
@@ -164,12 +167,12 @@ const option = ref('')
                 <div>Benutzer</div>
                 <SmallButton variant="secondary" @click="addUser">Benutzer hinzufügen</SmallButton>
             </div>
-            <UserCard v-for="u in users" :user="u" @edit="editUserData(u.id)" @delete="deleteUser(u.id)"/>
+            <UserCard v-for="u in users" :user="u" @edit="editUserData(u.id)" @delete="deleteUser(u.id)" @info="openUserDetail(u.id)" :key="u.id"/>
             <div class="title-card">
                 <div>Hauptfarben</div>
                 <SmallButton variant="secondary" @click="addColor">Farbe hinzufügen</SmallButton>
             </div>
-            <ColorCard v-for="c in colors" :color="c" @edit="editColorName(c)" @delete="deleteColor(c.id)"/>
+            <ColorCard v-for="c in colors" :color="c" @edit="editColorName(c)" @delete="deleteColor(c.id)" :key="c.id"/>
         </div>
     </div>
 </template>
