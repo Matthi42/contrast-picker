@@ -9,7 +9,7 @@
 
   "nativeAllowList": [
     "app.*",
-    "os.open",
+    "os.*",
     "storage.*",
     "extensions.*",
     "events.*"
@@ -22,7 +22,8 @@
       "minWidth": 400,
       "minHeight": 200,
       "icon": "/vue/public/logo.png",
-      "fullScreen": true
+      "fullScreen": true,
+      "enableInspector":false
     }
   },
   "cli": {
