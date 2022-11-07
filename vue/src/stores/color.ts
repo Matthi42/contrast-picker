@@ -134,6 +134,13 @@ export const useColorStore = defineStore('color', () => {
         }
         return IDs
     }
+    const deleteVariantByID = (variantID: string) => {
+        const index = colorVariants.findIndex(v => v.id === variantID)
+        if (index > -1) {
+            colorVariants.splice(index, 1)
+        }
+
+    }
 
     return {
         mainColors,
@@ -143,6 +150,7 @@ export const useColorStore = defineStore('color', () => {
         getColorVariantByID,
         getColorVariantColorsByID,
         deleteVariantsByUser,
+        deleteVariantByID,
         createColorVariant,
         modifyColorVariant,
         deleteMainColor,
