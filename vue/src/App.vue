@@ -10,16 +10,14 @@ import { Ref, ref } from 'vue';
 import Minus from './components/minus.vue';
 
 
-const closeApp = async () => {
-  await Neutralino.window.minimize()
-  const p =  Neutralino.os.showMessageBox('Programm schließen', 'Soll das Programm wirklich geschlossen werden?','OK_CANCEL', 'QUESTION')
-  const button = await p
-  if(button == 'OK')
-    await Neutralino.app.exit()
+const closeApp =  () => {
+  Neutralino.os.showMessageBox('Programm schließen', 'Soll das Programm wirklich geschlossen werden?','OK_CANCEL', 'WARNING').then(button => {
+    if(button == 'OK')
+      Neutralino.app.exit()
+  })
   // await Neutralino.window.maximize()
   // await Neutralino.window.unmaximize()
   // await Neutralino.window.setFullScreen()
-  
 }
 const minimize = async () => {
   try {
