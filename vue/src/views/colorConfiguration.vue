@@ -6,6 +6,7 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { computed, reactive } from '@vue/reactivity';
 import ColorIndecator from '../components/colorIndecator.vue'
 import AngleIndecator from '../components/angleIndecator.vue'
+import Back from '../components/back.vue'
 import BigButton from '../components/bigButton.vue'
 import Color from 'color'
 import { speak } from '../utils/speak';
@@ -129,6 +130,9 @@ onMounted(async () => {
 })
 </script>
 <template>
+    <Teleport to="#back">
+        <back @click="router.push({ name: 'colorOverview', params: { userID: route.params.userID as string } })"></Back>
+    </Teleport>
     <div class="grid">
 
         <div class="board-container">
@@ -149,9 +153,7 @@ onMounted(async () => {
             </div>
         </div>
         <div class="button-container">
-            <BigButton
-                @click="router.push({ name: 'colorOverview', params: { userID: route.params.userID as string } })">
-                zurück</BigButton>
+        
             <BigButton>Test</BigButton>
         </div>
         <div class="indecators" :class="{ 'indecator-container-calibrated': dialsCalibrated }">

@@ -18,6 +18,7 @@ import Color from 'color';
 import ColorInput from '../components/colorInput.vue';
 import Speaker from '../components/speaker.vue';
 import X from '../components/x.vue';
+import Back from '../components/back.vue';
 
 const userStore = useUserStore()
 const users = computed(() => userStore.fullUserList)
@@ -103,6 +104,9 @@ const option = ref('')
 </script>
 
 <template>
+    <Teleport to="#back">
+        <Back @click="router.push({ name: 'start' })"></Back>
+    </Teleport>
     <Modal v-model="editUser" @close="saveUser">
         <template v-slot:content>
             <div class="user-modal">
@@ -156,9 +160,6 @@ const option = ref('')
     <div class="title">
         <div class="t-text">
             <h1>Einstellungen</h1>
-        </div>
-        <div class="t-button">
-            <SmallButton @click="router.push({name: 'start'})">zurück</SmallButton>
         </div>
     </div>
     <div class="scroll">

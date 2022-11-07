@@ -8,6 +8,7 @@ import SmallButton from '../components/smallButton.vue';
 import Color from 'color';
 import ColorIndecator from '../components/colorIndecator.vue';
 import TrashCan from '../components/trashCan.vue';
+import Back from '../components/back.vue';
 
 
 const router = useRouter()
@@ -41,12 +42,12 @@ const deleteVariant = (id: string) => {
 
 </script>
 <template>
+    <Teleport to="#back">
+        <Back @click="router.push({ name: 'settings' })"></Back>
+    </Teleport>
     <div class="title">
         <div class="t-text">
             <h1>Benutzer Informationen</h1>
-        </div>
-        <div class="t-button">
-            <SmallButton @click="router.push({ name: 'settings' })">zurück</SmallButton>
         </div>
     </div>
     <div class="scroll">

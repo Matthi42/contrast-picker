@@ -7,6 +7,7 @@ import Modal from '../components/modal.vue';
 import { ref } from 'vue';
 import { useTestStore } from '../stores/test'
 import { useUserStore } from '../stores/users';
+import Back from '../components/back.vue';
 
 const route = useRoute()
 const userID = route.params.userID as string
@@ -51,6 +52,9 @@ const overwriteTest = async () => {
 
 </script>
 <template>
+    <Teleport to="#back">
+        <Back @click="logOut"></Back>
+    </Teleport>
     <!-- modal is only visible if model=true -->
     <Modal v-model="modalOpen">
         <template v-slot:content>
@@ -66,9 +70,6 @@ const overwriteTest = async () => {
         <div class="title">
             <div class="t-text">
                 <h1>Farbkombinationen</h1>
-            </div>
-            <div class="t-button">
-                <BigButton @click="logOut">Abmelden</BigButton>
             </div>
             <!--TODO do it right-->
         </div>

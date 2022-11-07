@@ -4,6 +4,7 @@ import LoginCard from '../components/loginCard.vue';
 import BigButton from '../components/bigButton.vue';
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/users';
+import Back from '../components/back.vue';
 
 const userStore = useUserStore();
 
@@ -17,12 +18,12 @@ const loginUser = ({ name, id }: { name: string, id: string }) => {
 
 </script>
 <template>
+    <Teleport to="#back">
+        <Back @click="back"></Back>
+    </Teleport>
     <div class="title">
         <div class="t-text">
             <h1>Wähle ein Konto </h1>
-        </div>
-        <div class="t-button">
-            <BigButton @click="back">zurück</BigButton>
         </div>
         <!--TODO do it right-->
     </div>
