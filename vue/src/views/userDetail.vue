@@ -79,7 +79,7 @@ const deleteVariant = (id: string) => {
                     <div class="colors" v-for="(main, i) in colors">
                         <div @click="open[i] = !open[i]">Hauptfarbe: {{ main.main.name }}</div>
                         <div class="h-tri-group">
-                            <div>Varianten:</div>
+                            <div>Varianten ({{ main.variants.length }}):</div>
                             <svg width="15px" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0 75L50 0L100 75H0Z" fill="black"
                                     :transform="open[i] ? '' : 'rotate(180 50 37.5)'" />
