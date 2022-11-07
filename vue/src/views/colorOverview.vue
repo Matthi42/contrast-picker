@@ -24,6 +24,10 @@ const logOut = () => {
     router.push({ name: 'login' })
 }
 const editVariant = (id: string) => {
+    testStore.deleteTest(id)
+    let color = colorStore.getColorVariantByID(id)
+    color.finishedTest = false
+    colorStore.modifyColorVariant(color)
     router.push({name: 'colorConfiguration', params: { userID: userID, colorVariantID: id}})
 }
 const createVariante = (mainColorID: string) => {
