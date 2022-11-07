@@ -6,10 +6,29 @@
 import X from './components/x.vue'
 import { useRoute, useRouter } from 'vue-router';
 import Home from './components/home.vue';
+import { Ref, ref } from 'vue';
+import Minus from './components/minus.vue';
 
-const closeApp = () => {
-  Neutralino.app.exit()
+
+const closeApp = async () => {
+  await Neutralino.window.minimize()
+  const p =  Neutralino.os.showMessageBox('Programm schließen', 'Soll das Programm wirklich geschlossen werden?','OK_CANCEL', 'QUESTION')
+  const button = await p
+  if(button == 'OK')
+    await Neutralino.app.exit()
+  // await Neutralino.window.maximize()
+  // await Neutralino.window.unmaximize()
+  // await Neutralino.window.setFullScreen()
+  
 }
+const minimize = async () => {
+  try {
+    await Neutralino.window.exitFullScreen()
+    await Neutralino.window.minimize()
+  } catch (e)  {
+    console.error(e)
+  }
+} 
 
 const Route = useRoute()
 const Router = useRouter()
@@ -20,8 +39,9 @@ const Router = useRouter()
   <div class="back">
     <div id="back"></div>
   </div>
-  <div id="close">
-    <X height="45" @click="closeApp" v-if="Route.name === 'start'" />
+  <div id="close" v-if="Route.name === 'start'">
+    <X height="45" @click="closeApp"  />
+    <Minus height="45" @click="minimize"/>
   </div>
   <div id="home">
     <Home height="45" v-if="Route.name !== 'start'" @click="Router.push({ name: 'start' })" />
