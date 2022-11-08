@@ -1,7 +1,9 @@
 # Hardware
 
 ## Part list
+
 Parts not in this list are generic standard components.
+
 Part|Model|link
 ---|---|---
 Adc|ADS1115|[Website](https://www.adafruit.com/product/1085)
@@ -9,6 +11,7 @@ Screen|WIMAXIT M728 Raspberry Pi 7” |[Website](https://wimaxit.com/products/wi
 Transistor| BC547|-
 Raspberry Pi|Raspberry Pi 4 Model b|[Website](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/)
 PCB|-|[Website](https://www.az-delivery.de/products/pcb-board-set-lochrasterplatte-platine-leiterplatte-4x4-stuck)
+
 ## Case assembly 
 
 The assembly of the case ist done like showcased in the image. 
@@ -24,7 +27,7 @@ The Parts will be referenced by the number in the image.
 8. Connect all cables.
 9. Screw the back pice of the case (8) on.
 
-<img src="./images/explosionszeichnug-numbers.png" alt="3D render" width="500"/>
+![3D render](./images/explosionszeichnug-numbers.png)
 
 The PCBs are attached with M2 screws. 
 The rest of the screws are M2.5.
