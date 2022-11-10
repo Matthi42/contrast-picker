@@ -18,6 +18,8 @@ import Color from 'color';
 import ColorInput from '../components/colorInput.vue';
 import Speaker from '../components/speaker.vue';
 import X from '../components/x.vue';
+import Back from '../components/back.vue';
+import { onKeyStroke } from '@vueuse/core';
 
 const userStore = useUserStore()
 const users = computed(() => userStore.fullUserList)
@@ -38,8 +40,6 @@ const editUserData = (id:string) => {
 }
 const addUser = () => {
     currentUser.value = userStore.newUser()
-    console.log(currentUser);
-    
     editUser.value = true
 }
 const addDisability = () => {
@@ -49,7 +49,6 @@ const addDisability = () => {
 const saveUser = () => {
     //TODO: validation
     userStore.addUser(currentUser.value)
-    console.log(currentUser.value);
     editUser.value=false
     option.value = ''
 }
@@ -59,6 +58,10 @@ const deleteUser = (userID: string) => {
     userStore.deleteUser(userID)
     const IDs = colorStore.deleteVariantsByUser(userID)
     IDs.forEach(id => testStore.deleteTest(id))
+}
+
+const openUserDetail = (UserID: string) => {
+    router.push({name: 'userDetail', params: {userID: UserID}})
 }
 
 const editColor = ref({modal: false, newColor: false})
@@ -86,6 +89,7 @@ const editColorName = (c: ColorCombination) => {
 const saveColor = ()  => {
     colorStore.addColor(color.value)
     editColor.value.modal = false
+    option.value = ''
 }
 
 const addDisabilityColor = () => {
@@ -97,11 +101,20 @@ const deleteColor = (colorID: string) => {
     IDs.forEach(id => {testStore.deleteTest(id)})
 }
 
+onKeyStroke('Enter', () => {
+    if(editColor.value) 
+        saveColor()
+    if(editUser.value)
+        saveUser()    
+})
 
 const option = ref('')
 </script>
 
 <template>
+    <Teleport to="#back">
+        <Back @click="router.push({ name: 'start' })"></Back>
+    </Teleport>
     <Modal v-model="editUser" @close="saveUser">
         <template v-slot:content>
             <div class="user-modal">
@@ -133,8 +146,10 @@ const option = ref('')
             <!-- <Dropdown v-model:selectedOption="op" v-model:options="options">title</Dropdown> -->
             <div class="user-modal">
                 <TextInput v-model="color.name">Name</TextInput>
-                <ColorInput :disabled="!editColor.newColor" :color="foreground" @update:color="foreground = $event">Vordergrund</ColorInput>
-                <ColorInput :disabled="!editColor.newColor" :color="background" @update:color="background = $event">Hintergrund</ColorInput>
+                <div>
+                    <ColorInput :disabled="!editColor.newColor" :color="foreground" @update:color="foreground = $event">Vordergrund</ColorInput>
+                    <ColorInput :disabled="!editColor.newColor" :color="background" @update:color="background = $event">Hintergrund</ColorInput>
+                </div>
                 <div>
                     <Dropdown  v-model:selectedOption="option" v-model:options="disabilities">Erkrankung</Dropdown>
                     <SmallButton @click="addDisabilityColor">hinzufügen</SmallButton>
@@ -154,9 +169,6 @@ const option = ref('')
         <div class="t-text">
             <h1>Einstellungen</h1>
         </div>
-        <div class="t-button">
-            <SmallButton @click="router.push({name: 'start'})">zurück</SmallButton>
-        </div>
     </div>
     <div class="scroll">
         <div class="sheet">
@@ -164,12 +176,12 @@ const option = ref('')
                 <div>Benutzer</div>
                 <SmallButton variant="secondary" @click="addUser">Benutzer hinzufügen</SmallButton>
             </div>
-            <UserCard v-for="u in users" :user="u" @edit="editUserData(u.id)" @delete="deleteUser(u.id)"/>
+            <UserCard v-for="u in users" :user="u" @edit="editUserData(u.id)" @delete="deleteUser(u.id)" @info="openUserDetail(u.id)" :key="u.id"/>
             <div class="title-card">
                 <div>Hauptfarben</div>
                 <SmallButton variant="secondary" @click="addColor">Farbe hinzufügen</SmallButton>
             </div>
-            <ColorCard v-for="c in colors" :color="c" @edit="editColorName(c)" @delete="deleteColor(c.id)"/>
+            <ColorCard v-for="c in colors" :color="c" @edit="editColorName(c)" @delete="deleteColor(c.id)" :key="c.id"/>
         </div>
     </div>
 </template>

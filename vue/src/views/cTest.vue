@@ -8,6 +8,7 @@ import { useColorStore } from '../stores/color'
 import { useTestStore } from '../stores/test'
 import Modal from '../components/modal.vue';
 import { ColorVariant } from '../stores/types/color';
+import Back from '../components/back.vue';
 
 const route = useRoute()
 const router = useRouter()
@@ -40,6 +41,9 @@ const currentSize = computed(() => `${Math.round(100 * Math.pow(0.8, testStore.t
 
 </script>
 <template>
+    <Teleport to="#back">
+        <Back @click="testFaild = true"/>
+    </Teleport>
     <Modal v-model="testFaild" @close="router.back">
         <template v-slot:content>
             <p>Ergebnis</p>
@@ -58,7 +62,6 @@ const currentSize = computed(() => `${Math.round(100 * Math.pow(0.8, testStore.t
         </div>
         <div class="side">
             <!-- <div>{{ testStore.mistakesInCurrentLine }}</div> -->
-            <BigButton @click="router.back">Pause</BigButton>
         </div>
     </div>
 </template>

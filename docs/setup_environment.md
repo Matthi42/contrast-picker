@@ -41,11 +41,15 @@ Host RaspberryPi
 Press `Strg+Shift+P` in VS Code and type `ssh`.
 Click on Remote-SSH: Connect current Window to Host.
 Now you can clone the Project in the integrated Terminal and open it with `code <path to project>`.
+
 ## Mirror Screen 
+
 You can view the screen of the Pi with TeamViewer.
 In contrast to XRDP you can view the same Screen as the Touchscreen on your PC.
 This is useful for keyboard inputs an debugging.
+
 ## Setup Project
+
 You need to install the neutralino cli globally.
 
 ```
@@ -76,7 +80,9 @@ Then you cen build the neutralino Application. The resulting Binaries can be fou
 ```
 neu build
 ```
+
 ## Required Packages
+
 eSpeak NG is required for  speech synthesis.
 ```
 sudo apt-get install espeak-ng espeak-ng-espeak mbrola 

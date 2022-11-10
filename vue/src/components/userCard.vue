@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import SmallButton from './smallButton.vue';
 import TrashCan from './trashCan.vue';
+import I from './i.vue';
+import Pen from './pen.vue';
 defineProps({
     user: {
         type: Object,
@@ -14,16 +16,17 @@ defineProps({
         } as User
     }
 })
-defineEmits(['edit','delete'])
+defineEmits(['edit','delete', 'info'])
 
 </script>
 <template>
     <div class="card">
         <div class="name">
-            <p>{{ user.name }}</p>
+            <p>{{ user.name }} {{ user.familyName }}</p>
         </div>
         <div class="h-group">
-            <SmallButton @click="$emit('edit')">bearbeiten</SmallButton>
+            <Pen @click="$emit('edit')" width="40">bearbeiten</Pen>
+            <I @click="$emit('info')" width="40" />
             <TrashCan @delete="$emit('delete')">soll der Benutzer wirklich gelöscht werden?</TrashCan>
         </div>
         <div class="chip-container">
@@ -40,13 +43,11 @@ defineEmits(['edit','delete'])
     border-color: gray;
 
     display:grid;
-    grid-template-columns: auto 220px;
+    grid-template-columns: auto 200px;
     grid-template-rows: auto auto;
 
     font-size: 20pt;
-    div{
-        padding:10px;
-    }
+
 }
 .chip {
     background-color: lightgray;
@@ -56,6 +57,7 @@ defineEmits(['edit','delete'])
 }
 
 .chip-container {
+    padding: 10px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -65,6 +67,7 @@ defineEmits(['edit','delete'])
     grid-column-end: 3;
 }
 .name {
+    padding: 10px;
     display:flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -73,10 +76,13 @@ defineEmits(['edit','delete'])
 }
 
 .h-group {
+    padding:10px;
     display:flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: flex-end;
+    align-items: center;
+    gap:10px;
+    padding-right: 20px;
 }
 
 </style>

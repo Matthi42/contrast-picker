@@ -5,6 +5,12 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   build: {
-    emptyOutDir: false
+    emptyOutDir: false,
+    rollupOptions: {
+      output: {
+        entryFileNames: "[name].js",
+        assetFileNames: '[name][extname]'
+      }
+    }
   }
 })
