@@ -83,13 +83,17 @@ const wcag = (a: number) => {
                 <div>Farben:</div>
                 <div class="stripes">
                     <div class="colors" v-for="(main, i) in colors">
-                        <div @click="open[i] = !open[i]">Hauptfarbe: {{ main.main.name }}</div>
-                        <div class="h-tri-group">
-                            <div>Varianten ({{ main.variants.length }}):</div>
-                            <svg width="15px" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 75L50 0L100 75H0Z" fill="black"
-                                    :transform="open[i] ? '' : 'rotate(180 50 37.5)'" />
-                            </svg>
+                        <div class="bu" @click="open[i] = !open[i]">
+                            <div >Hauptfarbe: {{ main.main.name }}</div>
+                            <div class="h-tri-group">
+                                <div>Varianten ({{ main.variants.length }}):</div>
+                                <div>
+                                    <svg width="15px" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 75L50 0L100 75H0Z" fill="black"
+                                        :transform="open[i] ? '' : 'rotate(180 50 37.5)'" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                         <div v-if="open[i]">
                             <div class="h-group" v-for="c in main.variants">
@@ -182,6 +186,16 @@ const wcag = (a: number) => {
 .h-tri-group {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 5%;
+}
+
+.bu{
+    border:solid 1px rgb(117, 158, 212);
+    display: flex;
+    flex-direction: column;
+    padding: 20px  30px 20px 30px;
+    cursor: pointer;
 }
 </style>

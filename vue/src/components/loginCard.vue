@@ -12,6 +12,7 @@ import BigButton from './bigButton.vue'
     border-style: solid;
     width: 1000px;
     font-size: 32pt;
+    line-height: 32pt;
     text-align: left;
     padding: 10px 10px 10px 50px;
     border-radius:30px;
