@@ -57,7 +57,6 @@ export const useColorStore = defineStore('color', () => {
                 .filter((v) => v.mainColorID === c.id && user.id === v.userID)
                 .map((v) => ({
                     id: v.id,
-                    // TODO: validation
                     foreground: `hsl(${c.foreground.hue() + v.foregroundChanges[0]} ${c.foreground.saturationl() + v.foregroundChanges[1]}% ${c.foreground.lightness() + v.foregroundChanges[2]}%)`,
                     background: `hsl(${c.background.hue() + v.backgroundChanges[0]} ${c.background.saturationl() + v.backgroundChanges[1]}% ${c.background.lightness() + v.backgroundChanges[2]}%)`
                 })),

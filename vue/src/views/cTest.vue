@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import ArrowButton from '../components/arrowButton.vue'
 import BigButton from '../components/bigButton.vue'
 import C from '../components/c.vue'
@@ -7,7 +7,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { useColorStore } from '../stores/color'
 import { useTestStore } from '../stores/test'
 import Modal from '../components/modal.vue';
-import { ColorVariant } from '../stores/types/color';
 import Back from '../components/back.vue';
 
 const route = useRoute()
@@ -17,12 +16,15 @@ const testStore = useTestStore()
 const arrows = ref([1,2,3,0,'c',4,7,6,5])
 const testFaild = ref(false)
 
+const buttonsDisabled = ref(false)
+
 const colorVariantID = route.params.colorVariantID as string
 await testStore.startTest(colorVariantID)
 
 let variant = colorStore.getColorVariantColorsByID(colorVariantID)
 
 const clickedArrow = async (n: number) => {
+    buttonsDisabled.value = true
     await testStore.setTest(n) 
     // before the next question we check if the test was faild here
     if(testStore.toManyMistakesInCurrentLine() || (testStore.test.currentPos[0] == 11 && testStore.test.currentPos[1] == 5)) {
@@ -33,7 +35,7 @@ const clickedArrow = async (n: number) => {
     } else {
         await testStore.nextQuestion()
     }
-    
+    buttonsDisabled.value=false
 }
 
 const currentSize = computed(() => `${Math.round(100 * Math.pow(0.8, testStore.test.currentPos[0]))}px`)
@@ -42,7 +44,7 @@ const currentSize = computed(() => `${Math.round(100 * Math.pow(0.8, testStore.t
 </script>
 <template>
     <Teleport to="#back">
-        <Back @click="testFaild = true"/>
+        <Back @click="router.back"/>
     </Teleport>
     <Modal v-model="testFaild" @close="router.back">
         <template v-slot:content>
@@ -56,12 +58,11 @@ const currentSize = computed(() => `${Math.round(100 * Math.pow(0.8, testStore.t
     <div class="container">
         <div class="grid">
             <div v-for="n in arrows" :style="{backgroundColor: n == 'c' ?  variant.background : ''}">
-                <ArrowButton v-if="n != 'c'" :rotation="n as number" @click="clickedArrow(n as number)"/>
+                <ArrowButton v-if="n != 'c'" :rotation="n as number" @click="clickedArrow(n as number)" :disabled="buttonsDisabled"/>
                 <C v-if="n == 'c'" :fill="variant.foreground" :width="currentSize" :rotation="testStore.currentRotation"/>
             </div>
         </div>
         <div class="side">
-            <!-- <div>{{ testStore.mistakesInCurrentLine }}</div> -->
         </div>
     </div>
 </template>

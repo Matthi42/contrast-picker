@@ -47,7 +47,6 @@ const addDisability = () => {
 }
 
 const saveUser = () => {
-    //TODO: validation
     userStore.addUser(currentUser.value)
     editUser.value=false
     option.value = ''
@@ -138,12 +137,10 @@ const option = ref('')
         </template>
         <template v-slot:buttons>
             <SmallButton @click="saveUser">speichern</SmallButton>
-            <!-- <SmallButton @click="deleteUser(currentUser.id)">abbrechen</SmallButton> -->
         </template>
     </Modal>
     <Modal v-model="editColor.modal">
         <template v-slot:content>
-            <!-- <Dropdown v-model:selectedOption="op" v-model:options="options">title</Dropdown> -->
             <div class="user-modal">
                 <TextInput v-model="color.name">Name</TextInput>
                 <div>

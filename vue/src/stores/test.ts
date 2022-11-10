@@ -134,7 +134,6 @@ export const useTestStore = defineStore('test', () => {
     
     const currentScore = computed(() => score(test.value))
 
-        // TODO: the line is changed as soon as the end is reached 
     const mistakesInCurrentLine = () => 
         test.value.result[test.value.currentPos[0]].map(l => 
             (l.actualRotation === l.chosenRotation || !l.chosenRotation) ? 0: 1
@@ -143,7 +142,6 @@ export const useTestStore = defineStore('test', () => {
     const toManyMistakesInCurrentLine = () =>   mistakesInCurrentLine() > Math.round(test.value.result[test.value.currentPos[0]].length / 2) - 1
 
     const deleteTest = async (id: string) => {
-        // TODO implement
         tests.delete(id)
         await Neutralino.storage.setData('test' + id, undefined as any)
         const index = testIDs.indexOf(id)

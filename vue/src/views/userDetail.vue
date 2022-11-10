@@ -4,7 +4,6 @@ import { computed, ref } from '@vue/reactivity';
 import { useUserStore } from '../stores/users';
 import { useColorStore } from '../stores/color';
 import { useTestStore } from '../stores/test';
-import SmallButton from '../components/smallButton.vue';
 import Color from 'color';
 import ColorIndecator from '../components/colorIndecator.vue';
 import TrashCan from '../components/trashCan.vue';

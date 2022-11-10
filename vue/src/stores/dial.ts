@@ -59,8 +59,6 @@ export const useDialStore = defineStore('dial', () => {
         isMeasureing.value = !isMeasureing.value
     }
 
-    // TODO: calibration logic and maped values
-
     return {
         dials: [ dial0, dial1, dial2, dial3 ] as Ref<number>[],
         startMesuaring,

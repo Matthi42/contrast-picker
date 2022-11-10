@@ -32,11 +32,8 @@ const editVariant = (id: string) => {
 }
 const createVariante = (mainColorID: string) => {
     colorStore.createColorVariant(route.params.userID as string ,mainColorID)
-    // TODO: navigate directly to configuration 
-    // router.push({name: 'colorConfiguration', params: {userID: '1', colorVariantID: '1'}})
 }
 const testVariant = (id: string) => {
-    // TODO: if a test has alredy be made we need to ask if it should be deleted
     if(colorStore.getColorVariantByID(id).finishedTest){
         selectedColorID.value = id 
         modalOpen.value = true
@@ -45,7 +42,6 @@ const testVariant = (id: string) => {
     }
 }
 const overwriteTest = async () => {
-    // TODO:
     let color = colorStore.getColorVariantByID(selectedColorID.value)
     color.finishedTest = false
     colorStore.modifyColorVariant(color)
@@ -75,7 +71,6 @@ const overwriteTest = async () => {
             <div class="t-text">
                 <h1>Farbkombinationen</h1>
             </div>
-            <!--TODO do it right-->
         </div>
         <div class="scroll">
             <BigColorCard 
