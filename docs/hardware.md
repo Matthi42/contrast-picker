@@ -17,19 +17,20 @@ PCB|-|[Website](https://www.az-delivery.de/products/pcb-board-set-lochrasterplat
 The assembly of the case ist done like showcased in the image. 
 The Parts will be referenced by the number in the image.
 
-1. Put the screen (1) in the front pice of the case (2). Put the Bottom in first.
+1. Put the screen (1) in the front pice of the case (2). Put the Bottom in first and tilt it in.
 2. Screw the fan (5) from the Back to the fan-bracket (4).
 3. Put the Raspberry Pi (3) on the standoffs at the back of the screen.
-4. On top of that put the fan (3+4).
-5. Screw it to the screen and connect the HDMI- and USB-connectors.
+4. On top of that put the fan-assembly (3+4).
+5. Screw it to the screen and connect the HDMI- and USB-connectors from the sides.
 6. Screw the PCBs (7) to the front pice (2).
-7. Put the caps (8) on the potentiometers and make sure the indicators are centered. 
-8. Connect all cables.
-9. Screw the back pice of the case (8) on.
+7. Put the caps (6) on the potentiometers and make sure the dials are centered. 
+8. Glue in the power-button (9) with hot-glue.
+9. Connect all cables.
+10. Screw the back pice of the case (8) on.
 
 ![3D render](./images/explosionszeichnug-numbers.png)
 
-The PCBs are attached with M2 screws. 
+The PCBs (7) are attached with M2 screws. 
 The rest of the screws are M2.5.
 
 

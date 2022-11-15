@@ -37,9 +37,9 @@ const deleteVariant = (id: string) => {
 }
 
 const wcag = (a: number) => {
-    if (a < 3)
-        return 'A'
     if (a < 4.5)
+        return 'A'
+    if (a < 7)
         return 'AA'
     else
         return 'AAA'

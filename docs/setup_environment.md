@@ -8,13 +8,21 @@ after you made your changes you need to reboot the os.
 ```
 $ sudo nano /boot/config.txt
 ```
+You need to add these lines to the file to make the Screen work correctly:
+```
+```
 
 The case has a Power-Button and a transistor that can power on the fan.
 You need to configure GPIO-Pins for these.
 These will also be configured in the `config.txt`.
+Add the following lines there:
 ```
+dtoverlay=gpio-fan,gpiopin=17,temp=6000
+dtoverlay=gpio-shutdown,gpiopin=4
 
 ```
+
+
 
 ## development environment
 
@@ -53,37 +61,41 @@ This is useful for keyboard inputs an debugging.
 You need to install the neutralino cli globally.
 
 ```
-npm install -g @neutralinojs/neu
+$ npm install -g @neutralinojs/neu
 ``` 
 Than you can install all npm dependencies.
 ```
-cd vue
-npm install
+$ cd vue
+$ npm install
 ```
 Update neutralino to the latest Version. 
 ```
-neu update
+$ neu update
 ```
 Now you can start the Developing mode by starting the vite server and the neutralino-process via the cli. The app will appear on the touch screen.
 ```
-npm run dev
+$ npm run dev
 # in the root dir
-DISPLAY=:0 nohup neu run --frontend-lib-dev --arch=armhf
+$ DISPLAY=:0 nohup neu run --frontend-lib-dev --arch=armhf
 ```
 
 To build the app you first need to build the vue app.
 ```
 # in the /vue dir
-npm run build
+$ npm run build
 ```
 Then you cen build the neutralino Application. The resulting Binaries can be found in the `dist/` folder.
 ```
-neu build
+$ neu build
 ```
 
 ## Required Packages
 
 eSpeak NG is required for  speech synthesis.
 ```
-sudo apt-get install espeak-ng espeak-ng-espeak mbrola 
+$ sudo apt-get install espeak-ng espeak-ng-espeak mbrola 
 ``` 
+The python extension needs some packages to:
+```
+$ sudo pip3 install adafruit-circuitpython-ads1x15, websocket-client, logging, board 
+```
